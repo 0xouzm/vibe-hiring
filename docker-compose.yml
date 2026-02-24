@@ -1,0 +1,25 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000/api}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - DATABASE_URL=/app/data/talentdrop.db
+      - LIGHTRAG_WORKING_DIR=/app/data/lightrag
+      - JWT_SECRET=${JWT_SECRET:-demo-secret-key}
+    volumes:
+      - app-data:/app/data
+
+volumes:
+  app-data:

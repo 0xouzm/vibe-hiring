@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-midnight: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-surface-light: #F1F5F9;
+  --color-text: #1E293B;
+  --color-text-dim: #64748B;
+  --color-text-muted: #94A3B8;
+  --color-indigo: #6366f1;
+  --color-coral: #F97316;
+  --color-amber: #F59E0B;
+  --color-emerald: #10B981;
+  --color-rose: #F43F5E;
+  --color-glass-border: #E2E8F0;
+  --radius-xl: 14px;
+  --radius-lg: 10px;
+  --radius-md: 6px;
+  --font-display: "Outfit", sans-serif;
+  --font-body: "Work Sans", sans-serif;
+}
+
+body {
+  background: var(--color-midnight);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+/* Glass effect utility */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, opacity, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}

@@ -1,0 +1,3112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalentDrop — 让机会找到你</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   CSS VARIABLES & RESET
+   ═══════════════════════════════════════════ */
+:root {
+  --midnight: #F8FAFC;
+  --deep: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-light: #F1F5F9;
+  --border: rgba(0,0,0,0.07);
+  --border-hover: rgba(0,0,0,0.14);
+  --text: #1E293B;
+  --text-dim: #64748B;
+  --text-muted: #94A3B8;
+  --indigo: #6366f1;
+  --indigo-glow: rgba(99,102,241,0.12);
+  --coral: #F97316;
+  --coral-glow: rgba(249,115,22,0.12);
+  --amber: #F59E0B;
+  --emerald: #10B981;
+  --rose: #F43F5E;
+  --glass: #FFFFFF;
+  --glass-border: #E2E8F0;
+  --font-display: 'Outfit', -apple-system, 'PingFang SC', sans-serif;
+  --font-body: 'Work Sans', -apple-system, 'PingFang SC', sans-serif;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+  --sidebar-w: 260px;
+  --transition: 0.2s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--midnight);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* noise texture removed for cleaner look */
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════ */
+.app { display: flex; min-height: 100vh; }
+
+/* ═══════════════════════════════════════════
+   SIDEBAR
+   ═══════════════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--deep);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  transition: transform var(--transition);
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo h1 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-logo .logo-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--indigo), var(--coral));
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  overflow-y: auto;
+}
+
+.nav-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  padding: 12px 12px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--transition);
+  margin-bottom: 2px;
+  position: relative;
+}
+
+.nav-item:hover {
+  background: var(--surface-light);
+  color: var(--text);
+}
+
+.nav-item.active {
+  background: rgba(99,102,241,0.05);
+  color: var(--indigo);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: var(--indigo);
+  border-radius: 0 3px 3px 0;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.nav-item.active .nav-icon { opacity: 1; color: var(--indigo); }
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--coral);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 99px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #FFFFFF;
+}
+
+.sidebar-user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar-user-info .name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user-info .role {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════ */
+.main {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+}
+
+.page {
+  display: none;
+  animation: pageIn 0.5s ease;
+}
+
+.page.active { display: block; }
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   LANDING PAGE
+   ═══════════════════════════════════════════ */
+.landing-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 60px;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+}
+
+.hero-bg .orb-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(99,102,241,0.06);
+  top: -150px;
+  right: -150px;
+}
+
+.hero-bg .orb-2 {
+  width: 400px;
+  height: 400px;
+  background: rgba(249,115,22,0.04);
+  bottom: -100px;
+  left: 15%;
+}
+
+.hero-bg .orb-3 { display: none; }
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 99px;
+  padding: 6px 16px 6px 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--indigo);
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+
+.hero-eyebrow .dot {
+  width: 8px;
+  height: 8px;
+  background: var(--emerald);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s ease 0.2s both;
+}
+
+.hero-title .accent {
+  background: linear-gradient(135deg, var(--indigo), var(--coral));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 560px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s ease 0.3s both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  animation: fadeUp 0.6s ease 0.4s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--indigo);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #7c7ff7;
+}
+
+.btn-ghost {
+  background: #FFFFFF;
+  color: var(--text);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--indigo);
+  color: var(--indigo);
+}
+
+/* Drop animation on hero */
+.hero-visual {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  animation: fadeUp 0.8s ease 0.5s both;
+}
+
+.drop-card-preview {
+  width: 320px;
+  background: #FFFFFF;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+
+}
+
+.drop-card-preview::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--indigo), transparent);
+}
+
+.dcp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dcp-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--coral);
+  background: rgba(255,107,74,0.1);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+.dcp-score {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--emerald);
+}
+
+.dcp-company {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.dcp-role {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.dcp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.dcp-tag {
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: rgba(0,0,0,0.04);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+.dcp-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dcp-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.dcp-bar-label { width: 70px; flex-shrink: 0; }
+
+.dcp-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.dcp-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1.5s ease;
+}
+
+/* Stats section */
+.landing-stats {
+  padding: 80px 60px;
+  position: relative;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+}
+
+.stat-card {
+  background: #FFFFFF;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  transition: all var(--transition);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.stat-card:hover {
+  border-color: var(--border-hover);
+  /* simplified hover */
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--indigo);
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* How it works */
+.landing-how {
+  padding: 80px 60px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.section-subtitle {
+  color: var(--text-dim);
+  font-size: 1rem;
+  margin-bottom: 48px;
+  max-width: 500px;
+}
+
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1100px;
+}
+
+.how-step {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.how-step:hover {
+  border-color: var(--border-hover);
+  /* simplified hover */
+}
+
+.how-step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.how-step:nth-child(1)::before { background: linear-gradient(90deg, var(--indigo), transparent); }
+.how-step:nth-child(2)::before { background: linear-gradient(90deg, var(--coral), transparent); }
+.how-step:nth-child(3)::before { background: linear-gradient(90deg, var(--emerald), transparent); }
+
+.step-number {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: rgba(0,0,0,0.03);
+  position: absolute;
+  top: 12px;
+  right: 20px;
+}
+
+.step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.how-step:nth-child(1) .step-icon { background: rgba(99,102,241,0.12); }
+.how-step:nth-child(2) .step-icon { background: rgba(255,107,74,0.12); }
+.how-step:nth-child(3) .step-icon { background: rgba(16,185,129,0.12); }
+
+.step-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+}
+
+.step-desc {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════
+   CAREER DNA PAGE
+   ═══════════════════════════════════════════ */
+.page-header {
+  padding: 36px 48px 0;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.page-desc {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+.dna-container {
+  padding: 32px 48px;
+  max-width: 780px;
+}
+
+.dna-progress {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 36px;
+}
+
+.dna-progress-step {
+  flex: 1;
+  height: 4px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 99px;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.dna-progress-step.done .dna-pf { width: 100%; }
+.dna-progress-step.current .dna-pf { width: 50%; }
+
+.dna-pf {
+  height: 100%;
+  background: var(--indigo);
+  border-radius: 99px;
+  width: 0;
+  transition: width 0.6s ease;
+}
+
+.dna-step-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.dna-step-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: center;
+  flex: 1;
+  transition: color var(--transition);
+}
+
+.dna-step-label.active { color: var(--indigo); }
+.dna-step-label.done { color: var(--emerald); }
+
+.dna-section {
+  display: none;
+}
+
+.dna-section.active { display: block; animation: pageIn 0.4s ease; }
+
+.dna-question {
+  margin-bottom: 32px;
+}
+
+.dna-q-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 14px;
+}
+
+.dna-q-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.dna-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dna-chip {
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1px solid var(--border-hover);
+  background: rgba(0,0,0,0.02);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.dna-chip:hover {
+  border-color: var(--indigo);
+  color: var(--text);
+}
+
+.dna-chip.selected {
+  background: rgba(99,102,241,0.05);
+  border-color: var(--indigo);
+  color: var(--indigo);
+}
+
+.dna-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.dna-slider-label {
+  width: 100px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.dna-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 4px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 99px;
+  outline: none;
+}
+
+.dna-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--indigo);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--indigo-glow);
+}
+
+.dna-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  resize: vertical;
+  transition: border-color var(--transition);
+}
+
+.dna-textarea:focus {
+  outline: none;
+  border-color: var(--indigo);
+}
+
+.dna-textarea::placeholder { color: var(--text-muted); }
+
+.dna-voice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--border-hover);
+  background: rgba(0,0,0,0.02);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all var(--transition);
+}
+
+.dna-voice-btn:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+
+/* DNA: One-Question-at-a-Time UI */
+.dna-progress-bar {
+  height: 4px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.dna-progress-fill {
+  height: 100%;
+  background: var(--indigo);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+.dna-counter {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.dna-dim-tags { display: flex; gap: 6px; margin-bottom: 16px; }
+.dna-dim-tag {
+  font-size: 0.66rem; padding: 3px 10px; border-radius: 99px;
+  background: rgba(99,102,241,0.12); color: var(--indigo);
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.dna-scenario {
+  font-size: 0.88rem; color: var(--text-dim); line-height: 1.7;
+  margin-bottom: 24px; padding: 16px 20px;
+  background: rgba(0,0,0,0.02);
+  border-left: 3px solid var(--indigo);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.dna-options { display: flex; flex-direction: column; gap: 10px; }
+.dna-option {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 18px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); cursor: pointer;
+  transition: all var(--transition);
+}
+.dna-option:hover { border-color: var(--indigo); background: rgba(99,102,241,0.03); }
+.dna-option.selected { border-color: var(--indigo); background: rgba(99,102,241,0.06); }
+.dna-option-marker {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--border-hover);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
+  transition: all var(--transition); color: var(--text-dim);
+}
+.dna-option.selected .dna-option-marker {
+  background: var(--indigo); border-color: var(--indigo); color: #FFFFFF;
+}
+.dna-option-text { font-size: 0.84rem; color: var(--text-dim); line-height: 1.5; }
+.dna-option.selected .dna-option-text { color: var(--text); }
+.dna-rank-hint, .dna-budget-hint {
+  font-size: 0.78rem; color: var(--text-muted); margin-bottom: 14px;
+}
+.dna-rank-list, .dna-budget-list {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.dna-rank-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); background: rgba(0,0,0,0.02);
+  transition: all var(--transition);
+}
+.dna-rank-item:hover { border-color: var(--border-hover); }
+.dna-rank-num {
+  font-weight: 800; color: var(--indigo); font-size: 0.82rem;
+  width: 20px; text-align: center;
+}
+.dna-rank-text { font-size: 0.84rem; color: var(--text-dim); line-height: 1.5; flex: 1; }
+.dna-rank-arrows { display: flex; flex-direction: column; gap: 2px; margin-left: auto; }
+.dna-rank-arrows button {
+  background: none; border: 1px solid var(--border); border-radius: 4px;
+  color: var(--text-muted); cursor: pointer; font-size: 0.6rem;
+  padding: 2px 6px; transition: all var(--transition);
+}
+.dna-rank-arrows button:hover { border-color: var(--indigo); color: var(--indigo); }
+.dna-budget-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 18px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); background: rgba(0,0,0,0.02);
+}
+.dna-budget-label { flex: 1; font-size: 0.84rem; color: var(--text-dim); }
+.dna-budget-input {
+  width: 64px; background: rgba(0,0,0,0.04);
+  border: 1px solid var(--border-hover); border-radius: 8px;
+  padding: 8px 0; text-align: center; color: var(--text);
+  font-size: 0.9rem; font-weight: 600; font-family: var(--font-display);
+}
+.dna-budget-input:focus { outline: none; border-color: var(--indigo); }
+.dna-budget-total {
+  text-align: right; font-size: 0.82rem; margin-top: 12px;
+  padding-top: 12px; border-top: 1px solid var(--border);
+}
+.dna-budget-total .val { font-weight: 700; }
+.dna-budget-total .val.under { color: var(--text-muted); }
+.dna-budget-total .val.exact { color: var(--emerald); }
+.dna-budget-total .val.over { color: var(--coral); }
+
+.dna-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+/* ═══════════════════════════════════════════
+   WEEKLY DROP PAGE
+   ═══════════════════════════════════════════ */
+.drop-container {
+  padding: 48px;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drop-countdown {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.drop-countdown-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.drop-timer {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.timer-unit {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  text-align: center;
+  min-width: 80px;
+}
+
+.timer-number {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.timer-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.drop-reveal-btn {
+  padding: 14px 36px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: linear-gradient(135deg, var(--indigo), var(--coral));
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.drop-reveal-btn:hover {
+  opacity: 0.9;
+}
+
+.drop-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.drop-card {
+  perspective: 1000px;
+  height: 380px;
+  cursor: pointer;
+}
+
+.drop-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.drop-card.flipped .drop-card-inner {
+  transform: rotateY(180deg);
+}
+
+.drop-card-front, .drop-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.drop-card-front {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.drop-card-front .mystery-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(249,115,22,0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.drop-card-front .mystery-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-dim);
+}
+
+.drop-card-front .mystery-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.drop-card-back {
+  background: #FFFFFF;
+  border: 1px solid var(--glass-border);
+  transform: rotateY(180deg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dcb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.dcb-match-score {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.dcb-match-score.high { color: var(--emerald); }
+.dcb-match-score.mid { color: var(--amber); }
+
+.dcb-company-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.dcb-company {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 2px;
+}
+
+.dcb-role {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.dcb-reason {
+  background: rgba(99,102,241,0.05);
+  border-radius: var(--radius-xs);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.dcb-reason-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--indigo);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.dcb-reason-text {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.dcb-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.dcb-accept {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-xs);
+  border: none;
+  background: var(--emerald);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.dcb-accept:hover { transform: translateY(-2px); }
+
+.dcb-pass {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-hover);
+  background: transparent;
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.dcb-pass:hover { border-color: var(--rose); color: var(--rose); }
+
+/* ═══════════════════════════════════════════
+   MATCH DETAIL PAGE
+   ═══════════════════════════════════════════ */
+.match-container {
+  padding: 36px 48px;
+  max-width: 900px;
+}
+
+.match-header {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.match-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  font-family: var(--font-display);
+  color: #FFFFFF;
+}
+
+.match-info { flex: 1; }
+
+.match-company-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+}
+
+.match-role-name {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
+
+.match-big-score {
+  text-align: center;
+}
+
+.match-big-number {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--emerald);
+  line-height: 1;
+}
+
+.match-big-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* Radar Chart (SVG) */
+.radar-section {
+  margin-bottom: 40px;
+}
+
+.radar-wrapper {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.radar-svg-container {
+  width: 280px;
+  height: 280px;
+  flex-shrink: 0;
+}
+
+.radar-legend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radar-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rl-info { flex: 1; }
+
+.rl-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.rl-bar-bg {
+  height: 4px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.rl-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+
+.rl-score {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Why you match */
+.why-section {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 40px;
+}
+
+.why-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.why-points {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.why-point {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.why-point-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+  background: rgba(99,102,241,0.1);
+}
+
+.why-point-text {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.match-actions {
+  display: flex;
+  gap: 14px;
+}
+
+.btn-accept {
+  background: var(--emerald);
+  color: #fff;
+}
+
+.btn-accept:hover {
+  opacity: 0.9;
+}
+
+.btn-decline {
+  background: transparent;
+  border: 1px solid var(--border-hover);
+  color: var(--text-dim);
+}
+
+.btn-decline:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
+/* ═══════════════════════════════════════════
+   COMPANY DASHBOARD
+   ═══════════════════════════════════════════ */
+.dash-container { padding: 36px 48px; }
+
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.dash-stat {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+}
+
+.dash-stat-value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+.dash-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.dash-stat-change {
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.dash-stat-change.up { color: var(--emerald); }
+.dash-stat-change.down { color: var(--rose); }
+
+.dash-section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 16px;
+}
+
+.dash-roles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.dash-role-card {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.dash-role-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+}
+
+.drc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.drc-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.drc-match-count {
+  background: rgba(99,102,241,0.12);
+  color: var(--indigo);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+.drc-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.drc-candidates {
+  display: flex;
+  gap: -8px;
+}
+
+.drc-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-left: -8px;
+}
+
+.drc-avatar:first-child { margin-left: 0; }
+.drc-avatar { color: #fff; }
+
+.drc-more {
+  background: var(--surface-light);
+  color: var(--text-muted);
+}
+
+/* Candidate pipeline */
+.dash-pipeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.pipeline-card {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all var(--transition);
+}
+
+.pipeline-card:hover { border-color: var(--border-hover); }
+
+.pc-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.pc-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+
+.pc-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.pc-title {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.pc-score {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--emerald);
+}
+
+.pc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.pc-tag {
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: rgba(0,0,0,0.04);
+  color: var(--text-muted);
+}
+
+.pc-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pc-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: var(--radius-xs);
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.pc-btn-accept { background: var(--emerald); color: #fff; }
+.pc-btn-pass { background: rgba(0,0,0,0.05); color: var(--text-dim); border: 1px solid var(--border); }
+
+/* ═══════════════════════════════════════════
+   PLAY RECRUITER PAGE
+   ═══════════════════════════════════════════ */
+.recruiter-container {
+  padding: 36px 48px;
+  max-width: 900px;
+}
+
+.recruiter-hero {
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(255,107,74,0.1));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 36px;
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.recruiter-hero-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.recruiter-hero-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+
+.recruiter-hero-desc {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  max-width: 450px;
+  margin: 0 auto 20px;
+  line-height: 1.6;
+}
+
+.recruiter-reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 99px;
+  padding: 6px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.referral-form {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 32px;
+}
+
+.referral-form-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.form-input {
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-xs);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  transition: border-color var(--transition);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--indigo);
+}
+
+.form-input::placeholder { color: var(--text-muted); }
+
+.referral-list-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+
+.referral-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.referral-item {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ri-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+  color: #FFFFFF;
+}
+
+.ri-info { flex: 1; }
+
+.ri-name { font-weight: 600; font-size: 0.9rem; }
+.ri-role { font-size: 0.78rem; color: var(--text-muted); }
+
+.ri-status {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+.ri-status.pending { background: rgba(245,158,11,0.1); color: var(--amber); }
+.ri-status.matched { background: rgba(16,185,129,0.1); color: var(--emerald); }
+.ri-status.interviewing { background: rgba(99,102,241,0.1); color: var(--indigo); }
+
+/* ═══════════════════════════════════════════
+   MUTUAL MATCH PAGE
+   ═══════════════════════════════════════════ */
+.mutual-container {
+  padding: 36px 48px;
+  max-width: 900px;
+}
+
+.mutual-hero {
+  background: linear-gradient(135deg, rgba(244,63,94,0.08), rgba(99,102,241,0.08));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 36px;
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.mutual-hero-icon { font-size: 48px; margin-bottom: 16px; }
+
+.mutual-hero-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+
+.mutual-hero-desc {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.mutual-search {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.mutual-search-input {
+  width: 100%;
+  padding: 14px 20px 14px 48px;
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  transition: border-color var(--transition);
+}
+
+.mutual-search-input:focus {
+  outline: none;
+  border-color: var(--indigo);
+}
+
+.mutual-search-input::placeholder { color: var(--text-muted); }
+
+.mutual-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+.mutual-section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mutual-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.mutual-item {
+  background: var(--glass);
+
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all var(--transition);
+}
+
+.mutual-item:hover { border-color: var(--border-hover); }
+
+.mi-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  color: #FFFFFF;
+}
+
+.mi-info { flex: 1; }
+.mi-name { font-weight: 600; font-size: 0.9rem; }
+.mi-detail { font-size: 0.78rem; color: var(--text-muted); }
+
+.mi-lock {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.mi-remove {
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  transition: color var(--transition);
+}
+
+.mi-remove:hover { color: var(--rose); }
+
+/* Mutual match celebration */
+.mutual-celebration {
+  background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(99,102,241,0.1));
+  border: 2px solid rgba(16,185,129,0.3);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mc-icon {
+  font-size: 36px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.mc-info { flex: 1; }
+
+.mc-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--emerald);
+  margin-bottom: 4px;
+}
+
+.mc-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.mc-action {
+  padding: 10px 20px;
+  border-radius: var(--radius-xs);
+  border: none;
+  background: var(--emerald);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+
+.mc-action:hover { transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+.mobile-nav-toggle {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 200;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .mobile-nav-toggle { display: flex; }
+  .landing-hero { padding: 80px 24px; }
+  .hero-visual { display: none; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .how-steps { grid-template-columns: 1fr; }
+  .landing-stats, .landing-how { padding: 48px 24px; }
+  .page-header, .dna-container, .match-container,
+  .dash-container, .recruiter-container, .mutual-container { padding: 24px; }
+  .dash-stats { grid-template-columns: repeat(2, 1fr); }
+  .radar-wrapper { flex-direction: column; }
+  .form-row { grid-template-columns: 1fr; }
+  .match-header { flex-direction: column; text-align: center; }
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.06); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.15); }
+</style>
+</head>
+<body>
+
+<button class="mobile-nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+
+<div class="app">
+  <!-- ═══════════ SIDEBAR ═══════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h1>
+        <span class="logo-icon">&#9670;</span>
+        TalentDrop
+      </h1>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-label">发现</div>
+      <div class="nav-item active" data-page="landing">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        首页
+      </div>
+      <div class="nav-item" data-page="dna">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        职业 DNA
+      </div>
+      <div class="nav-item" data-page="drop">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        每周空投
+        <span class="nav-badge">3</span>
+      </div>
+
+      <div class="nav-label">互动</div>
+      <div class="nav-item" data-page="match">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        匹配报告
+      </div>
+      <div class="nav-item" data-page="dashboard">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        企业中心
+      </div>
+
+      <div class="nav-label">社区</div>
+      <div class="nav-item" data-page="recruiter">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        伯乐推荐
+      </div>
+      <div class="nav-item" data-page="mutual">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        双向心愿
+        <span class="nav-badge">1</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">AZ</div>
+        <div class="sidebar-user-info">
+          <div class="name">张明</div>
+          <div class="role">软件工程师</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════ MAIN CONTENT ═══════════ -->
+  <main class="main">
+
+    <!-- ====== LANDING PAGE ====== -->
+    <section class="page active" id="page-landing">
+      <div class="landing-hero">
+        <div class="hero-bg">
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+          <div class="orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span class="dot"></span>
+            已覆盖 12 所高校
+          </div>
+          <h2 class="hero-title">
+            不再海投简历。<br>
+            让机会<span class="accent">主动找到你。</span>
+          </h2>
+          <p class="hero-subtitle">
+            每周二晚 9 点，算法为你空投最匹配的职业机会。
+            深度画像、双向意愿、真实契合度——不再是关键词碰运气。
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="navigateTo('dna')">构建你的职业 DNA &rarr;</button>
+            <button class="btn btn-ghost" onclick="navigateTo('dashboard')">我要招人</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="drop-card-preview">
+            <div class="dcp-header">
+              <div class="dcp-badge">&#9670; 新空投</div>
+              <div class="dcp-score">94%</div>
+            </div>
+            <div class="dcp-company">Anthropic</div>
+            <div class="dcp-role">高级ML工程师 &middot; 旧金山</div>
+            <div class="dcp-tags">
+              <span class="dcp-tag">AI 安全</span>
+              <span class="dcp-tag">可远程</span>
+              <span class="dcp-tag">$180-240k</span>
+            </div>
+            <div class="dcp-bars">
+              <div class="dcp-bar-item">
+                <span class="dcp-bar-label">价值观</span>
+                <div class="dcp-bar"><div class="dcp-bar-fill" style="width:92%;background:var(--emerald)"></div></div>
+              </div>
+              <div class="dcp-bar-item">
+                <span class="dcp-bar-label">文化</span>
+                <div class="dcp-bar"><div class="dcp-bar-fill" style="width:88%;background:var(--indigo)"></div></div>
+              </div>
+              <div class="dcp-bar-item">
+                <span class="dcp-bar-label">技能</span>
+                <div class="dcp-bar"><div class="dcp-bar-fill" style="width:96%;background:var(--coral)"></div></div>
+              </div>
+              <div class="dcp-bar-item">
+                <span class="dcp-bar-label">成长</span>
+                <div class="dcp-bar"><div class="dcp-bar-fill" style="width:91%;background:var(--amber)"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-stats">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" data-target="12847">0</div>
+            <div class="stat-label">已完成匹配</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="94">0</div>
+            <div class="stat-label">% 接受率</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="340">0</div>
+            <div class="stat-label">合作企业</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="91">0</div>
+            <div class="stat-label">% 90天留存率</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-how">
+        <h3 class="section-title">TalentDrop 如何运作</h3>
+        <p class="section-subtitle">三步找到真正适合你的职业机会。告别海投，精准匹配。</p>
+        <div class="how-steps">
+          <div class="how-step">
+            <span class="step-number">01</span>
+            <div class="step-icon">&#127895;</div>
+            <h4 class="step-title">构建你的职业 DNA</h4>
+            <p class="step-desc">回答 50+ 道深度问题，涵盖你的价值观、工作风格、文化偏好和成长目标。我们画出真实的你——而不只是简历上写的。</p>
+          </div>
+          <div class="how-step">
+            <span class="step-number">02</span>
+            <div class="step-icon">&#9670;</div>
+            <h4 class="step-title">接收每周空投</h4>
+            <p class="step-desc">每周二晚 9 点，收到 1-3 个根据你的 DNA 精选的机会。每个都附带详细的兼容性报告，说明为什么你们匹配。</p>
+          </div>
+          <div class="how-step">
+            <span class="step-number">03</span>
+            <div class="step-icon">&#9889;</div>
+            <h4 class="step-title">建立连接</h4>
+            <p class="step-desc">当双方都说"是"，跳过简历堆。获得直接介绍，进行真实对话，一起开启未来。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CAREER DNA PAGE ====== -->
+    <section class="page" id="page-dna">
+      <div class="page-header">
+        <h2 class="page-title">职业 DNA 画像</h2>
+        <p class="page-desc">30 道行为场景题——没有正确答案，只有你真实的工作风格。</p>
+      </div>
+      <div class="dna-container">
+        <div class="dna-progress-bar"><div class="dna-progress-fill" id="dna-progress-fill"></div></div>
+        <div class="dna-counter" id="dna-counter"></div>
+        <div class="dna-dim-tags" id="dna-dims"></div>
+        <div class="dna-q-label" id="dna-title"></div>
+        <div id="dna-body"></div>
+        <div class="dna-nav">
+          <button class="btn btn-ghost" id="dna-prev" onclick="prevDnaQ()">&#8592; 上一题</button>
+          <button class="btn btn-primary" id="dna-next" onclick="nextDnaQ()">继续 &#8594;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== WEEKLY DROP PAGE ====== -->
+    <section class="page" id="page-drop">
+      <div class="page-header">
+        <h2 class="page-title">每周空投</h2>
+        <p class="page-desc">你的精选匹配每周二晚 9:00 准时送达</p>
+      </div>
+      <div class="drop-container">
+        <div class="drop-countdown">
+          <div class="drop-countdown-label">距下次空投</div>
+          <div class="drop-timer">
+            <div class="timer-unit">
+              <div class="timer-number" id="timer-d">02</div>
+              <div class="timer-label">天</div>
+            </div>
+            <div class="timer-unit">
+              <div class="timer-number" id="timer-h">14</div>
+              <div class="timer-label">时</div>
+            </div>
+            <div class="timer-unit">
+              <div class="timer-number" id="timer-m">37</div>
+              <div class="timer-label">分</div>
+            </div>
+            <div class="timer-unit">
+              <div class="timer-number" id="timer-s">52</div>
+              <div class="timer-label">秒</div>
+            </div>
+          </div>
+          <button class="drop-reveal-btn" onclick="revealDrop()">&#9670; 揭晓本周空投</button>
+        </div>
+
+        <div class="drop-cards">
+          <div class="drop-card" onclick="flipCard(this)">
+            <div class="drop-card-inner">
+              <div class="drop-card-front">
+                <div class="mystery-icon">&#9670;</div>
+                <div class="mystery-text">匹配 #1</div>
+                <div class="mystery-sub">点击揭晓</div>
+              </div>
+              <div class="drop-card-back">
+                <div class="dcb-header">
+                  <div>
+                    <div class="dcb-company">Anthropic</div>
+                    <div class="dcb-role">高级ML工程师 &middot; 旧金山</div>
+                  </div>
+                  <div class="dcb-match-score high">94%</div>
+                </div>
+                <div class="dcb-reason">
+                  <div class="dcb-reason-title">&#9889; 为什么匹配</div>
+                  <div class="dcb-reason-text">你对 AI 安全研究的重视与他们的使命完美契合。你偏好自主、深度专注的工作方式和他们的工程文化一致。</div>
+                </div>
+                <div class="dcb-actions">
+                  <button class="dcb-accept">&#10003; 接受</button>
+                  <button class="dcb-pass">跳过</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="drop-card" onclick="flipCard(this)">
+            <div class="drop-card-inner">
+              <div class="drop-card-front">
+                <div class="mystery-icon">&#9670;</div>
+                <div class="mystery-text">匹配 #2</div>
+                <div class="mystery-sub">点击揭晓</div>
+              </div>
+              <div class="drop-card-back">
+                <div class="dcb-header">
+                  <div>
+                    <div class="dcb-company">Stripe</div>
+                    <div class="dcb-role">资深工程师 &middot; 远程</div>
+                  </div>
+                  <div class="dcb-match-score high">89%</div>
+                </div>
+                <div class="dcb-reason">
+                  <div class="dcb-reason-title">&#9889; 为什么匹配</div>
+                  <div class="dcb-reason-text">你的系统思维和成长导向的价值观与 Stripe 工程优先的文化一致。他们的远程灵活度完美契合你的工作风格。</div>
+                </div>
+                <div class="dcb-actions">
+                  <button class="dcb-accept">&#10003; 接受</button>
+                  <button class="dcb-pass">跳过</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="drop-card" onclick="flipCard(this)">
+            <div class="drop-card-inner">
+              <div class="drop-card-front">
+                <div class="mystery-icon">&#9670;</div>
+                <div class="mystery-text">匹配 #3</div>
+                <div class="mystery-sub">点击揭晓</div>
+              </div>
+              <div class="drop-card-back">
+                <div class="dcb-header">
+                  <div>
+                    <div class="dcb-company">Figma</div>
+                    <div class="dcb-role">产品工程师 &middot; 纽约</div>
+                  </div>
+                  <div class="dcb-match-score mid">82%</div>
+                </div>
+                <div class="dcb-reason">
+                  <div class="dcb-reason-title">&#9889; 为什么匹配</div>
+                  <div class="dcb-reason-text">你创意优先的价值观和对开发者工具的热情与 Figma 协作、设计驱动的文化高度吻合。团队化学反应得分出色。</div>
+                </div>
+                <div class="dcb-actions">
+                  <button class="dcb-accept">&#10003; 接受</button>
+                  <button class="dcb-pass">跳过</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== MATCH DETAIL PAGE ====== -->
+    <section class="page" id="page-match">
+      <div class="page-header">
+        <h2 class="page-title">匹配报告</h2>
+        <p class="page-desc">你的最佳匹配详细兼容性分析</p>
+      </div>
+      <div class="match-container">
+        <div class="match-header">
+          <div class="match-logo">A</div>
+          <div class="match-info">
+            <div class="match-company-name">Anthropic</div>
+            <div class="match-role-name">高级ML工程师 &middot; 旧金山</div>
+          </div>
+          <div class="match-big-score">
+            <div class="match-big-number">94%</div>
+            <div class="match-big-label">匹配分数</div>
+          </div>
+        </div>
+
+        <div class="radar-section">
+          <h3 class="section-title" style="font-size:1.2rem;margin-bottom:24px">兼容性雷达</h3>
+          <div class="radar-wrapper">
+            <div class="radar-svg-container">
+              <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                <!-- Grid -->
+                <polygon points="140,20 248,80 248,200 140,260 32,200 32,80" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                <polygon points="140,50 221,95 221,185 140,230 59,185 59,95" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                <polygon points="140,80 194,110 194,170 140,200 86,170 86,110" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                <polygon points="140,110 167,125 167,155 140,170 113,155 113,125" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                <!-- Axes -->
+                <line x1="140" y1="20" x2="140" y2="260" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                <line x1="32" y1="80" x2="248" y2="200" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                <line x1="248" y1="80" x2="32" y2="200" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+                <!-- Data polygon -->
+                <polygon points="140,28 240,88 235,192 140,240 48,180 45,90" fill="rgba(99,102,241,0.15)" stroke="var(--indigo)" stroke-width="2"/>
+                <!-- Data points -->
+                <circle cx="140" cy="28" r="4" fill="var(--indigo)"/>
+                <circle cx="240" cy="88" r="4" fill="var(--indigo)"/>
+                <circle cx="235" cy="192" r="4" fill="var(--indigo)"/>
+                <circle cx="140" cy="240" r="4" fill="var(--indigo)"/>
+                <circle cx="48" cy="180" r="4" fill="var(--indigo)"/>
+                <circle cx="45" cy="90" r="4" fill="var(--indigo)"/>
+                <!-- Labels -->
+                <text x="140" y="12" fill="var(--text-dim)" font-size="10" text-anchor="middle" font-family="Inter, PingFang SC, sans-serif">价值观</text>
+                <text x="260" y="84" fill="var(--text-dim)" font-size="10" text-anchor="start" font-family="Inter, PingFang SC, sans-serif">技能</text>
+                <text x="260" y="204" fill="var(--text-dim)" font-size="10" text-anchor="start" font-family="Inter, PingFang SC, sans-serif">文化</text>
+                <text x="140" y="278" fill="var(--text-dim)" font-size="10" text-anchor="middle" font-family="Inter, PingFang SC, sans-serif">成长</text>
+                <text x="18" y="204" fill="var(--text-dim)" font-size="10" text-anchor="end" font-family="Inter, PingFang SC, sans-serif">团队</text>
+                <text x="18" y="84" fill="var(--text-dim)" font-size="10" text-anchor="end" font-family="Inter, PingFang SC, sans-serif">风格</text>
+              </svg>
+            </div>
+            <div class="radar-legend">
+              <div class="radar-legend-item">
+                <div class="rl-dot" style="background:var(--emerald)"></div>
+                <div class="rl-info">
+                  <div class="rl-label">价值观契合度</div>
+                  <div class="rl-bar-bg"><div class="rl-bar-fill" style="width:96%;background:var(--emerald)"></div></div>
+                </div>
+                <div class="rl-score" style="color:var(--emerald)">96</div>
+              </div>
+              <div class="radar-legend-item">
+                <div class="rl-dot" style="background:var(--indigo)"></div>
+                <div class="rl-info">
+                  <div class="rl-label">技术能力</div>
+                  <div class="rl-bar-bg"><div class="rl-bar-fill" style="width:93%;background:var(--indigo)"></div></div>
+                </div>
+                <div class="rl-score" style="color:var(--indigo)">93</div>
+              </div>
+              <div class="radar-legend-item">
+                <div class="rl-dot" style="background:var(--coral)"></div>
+                <div class="rl-info">
+                  <div class="rl-label">文化匹配</div>
+                  <div class="rl-bar-bg"><div class="rl-bar-fill" style="width:91%;background:var(--coral)"></div></div>
+                </div>
+                <div class="rl-score" style="color:var(--coral)">91</div>
+              </div>
+              <div class="radar-legend-item">
+                <div class="rl-dot" style="background:var(--amber)"></div>
+                <div class="rl-info">
+                  <div class="rl-label">成长潜力</div>
+                  <div class="rl-bar-bg"><div class="rl-bar-fill" style="width:95%;background:var(--amber)"></div></div>
+                </div>
+                <div class="rl-score" style="color:var(--amber)">95</div>
+              </div>
+              <div class="radar-legend-item">
+                <div class="rl-dot" style="background:#a78bfa"></div>
+                <div class="rl-info">
+                  <div class="rl-label">团队化学反应</div>
+                  <div class="rl-bar-bg"><div class="rl-bar-fill" style="width:88%;background:#a78bfa"></div></div>
+                </div>
+                <div class="rl-score" style="color:#a78bfa">88</div>
+              </div>
+              <div class="radar-legend-item">
+                <div class="rl-dot" style="background:#38bdf8"></div>
+                <div class="rl-info">
+                  <div class="rl-label">工作风格</div>
+                  <div class="rl-bar-bg"><div class="rl-bar-fill" style="width:92%;background:#38bdf8"></div></div>
+                </div>
+                <div class="rl-score" style="color:#38bdf8">92</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-section">
+          <div class="why-title">&#9889; 为什么你们高度匹配</div>
+          <div class="why-points">
+            <div class="why-point">
+              <div class="why-point-icon">&#127919;</div>
+              <div class="why-point-text"><strong>使命驱动契合：</strong>你的首要价值观"影响力"直接映射到 Anthropic 构建安全、有益 AI 的核心使命。他们 96% 的团队成员共享这一价值观。</div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-icon">&#128736;</div>
+              <div class="why-point-text"><strong>技术深度匹配：</strong>你的 ML 系统专长和偏好深度研究的工作方式，与他们严谨、第一性原理驱动的工程文化一致。</div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-icon">&#127793;</div>
+              <div class="why-point-text"><strong>成长轨迹：</strong>你"3年内带领研究团队"的目标与他们的快速扩张计划匹配。他们正在积极建设技术领导力发展路径。</div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-icon">&#129309;</div>
+              <div class="why-point-text"><strong>团队性格契合：</strong>目标团队在自主性与协作的平衡上得分很高——与你 65% 独立 / 35% 协作的工作偏好一致。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="match-actions">
+          <button class="btn btn-accept">&#10003; 接受匹配</button>
+          <button class="btn btn-decline">暂时不了</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== COMPANY DASHBOARD ====== -->
+    <section class="page" id="page-dashboard">
+      <div class="page-header">
+        <h2 class="page-title">企业中心</h2>
+        <p class="page-desc">管理你的人才管道，审核每周匹配结果</p>
+      </div>
+      <div class="dash-container">
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-value" style="color:var(--indigo)">24</div>
+            <div class="dash-stat-label">活跃匹配</div>
+            <div class="dash-stat-change up">&#9650; 较上周 +12%</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-value" style="color:var(--emerald)">8</div>
+            <div class="dash-stat-label">已安排面试</div>
+            <div class="dash-stat-change up">&#9650; 本周新增 3 个</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-value" style="color:var(--coral)">91%</div>
+            <div class="dash-stat-label">接受率</div>
+            <div class="dash-stat-change up">&#9650; 高于均值 4%</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-value" style="color:var(--amber)">5</div>
+            <div class="dash-stat-label">开放职位</div>
+            <div class="dash-stat-change">2 个空投待处理</div>
+          </div>
+        </div>
+
+        <div class="dash-section-title">活跃职位</div>
+        <div class="dash-roles">
+          <div class="dash-role-card">
+            <div class="drc-top">
+              <div class="drc-title">高级ML工程师</div>
+              <div class="drc-match-count">5 个匹配</div>
+            </div>
+            <div class="drc-meta">旧金山 &middot; $180-240k &middot; 发布于 2 周前</div>
+            <div class="drc-candidates">
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">AZ</div>
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#f43f5e,#fb7185)">ML</div>
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#10b981,#34d399)">KP</div>
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">RJ</div>
+              <div class="drc-avatar drc-more">+1</div>
+            </div>
+          </div>
+          <div class="dash-role-card">
+            <div class="drc-top">
+              <div class="drc-title">产品设计师</div>
+              <div class="drc-match-count">3 个匹配</div>
+            </div>
+            <div class="drc-meta">远程 &middot; $140-180k &middot; 发布于 1 周前</div>
+            <div class="drc-candidates">
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#ec4899,#f472b6)">SW</div>
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)">JL</div>
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#14b8a6,#2dd4bf)">NK</div>
+            </div>
+          </div>
+          <div class="dash-role-card">
+            <div class="drc-top">
+              <div class="drc-title">工程经理</div>
+              <div class="drc-match-count">2 个匹配</div>
+            </div>
+            <div class="drc-meta">纽约 &middot; $200-260k &middot; 发布于 3 天前</div>
+            <div class="drc-candidates">
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)">DW</div>
+              <div class="drc-avatar" style="background:linear-gradient(135deg,#f97316,#fb923c)">TC</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-section-title">本周候选人 &mdash; 高级ML工程师</div>
+        <div class="dash-pipeline">
+          <div class="pipeline-card">
+            <div class="pc-top">
+              <div class="pc-avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">AZ</div>
+              <div>
+                <div class="pc-name">张明</div>
+                <div class="pc-title">ML工程师 @ DeepMind &middot; 5年</div>
+              </div>
+              <div class="pc-score">94%</div>
+            </div>
+            <div class="pc-tags">
+              <span class="pc-tag">PyTorch</span>
+              <span class="pc-tag">Transformers</span>
+              <span class="pc-tag">RLHF</span>
+              <span class="pc-tag">Safety</span>
+            </div>
+            <div class="pc-actions">
+              <button class="pc-btn pc-btn-accept">&#10003; 接受</button>
+              <button class="pc-btn pc-btn-pass">跳过</button>
+            </div>
+          </div>
+          <div class="pipeline-card">
+            <div class="pc-top">
+              <div class="pc-avatar" style="background:linear-gradient(135deg,#f43f5e,#fb7185)">ML</div>
+              <div>
+                <div class="pc-name">李雯</div>
+                <div class="pc-title">研究科学家 @ OpenAI &middot; 4年</div>
+              </div>
+              <div class="pc-score">89%</div>
+            </div>
+            <div class="pc-tags">
+              <span class="pc-tag">NLP</span>
+              <span class="pc-tag">JAX</span>
+              <span class="pc-tag">Scaling</span>
+              <span class="pc-tag">Interpretability</span>
+            </div>
+            <div class="pc-actions">
+              <button class="pc-btn pc-btn-accept">&#10003; 接受</button>
+              <button class="pc-btn pc-btn-pass">跳过</button>
+            </div>
+          </div>
+          <div class="pipeline-card">
+            <div class="pc-top">
+              <div class="pc-avatar" style="background:linear-gradient(135deg,#10b981,#34d399)">KP</div>
+              <div>
+                <div class="pc-name">陈凯</div>
+                <div class="pc-title">资深工程师 @ Google Brain &middot; 7年</div>
+              </div>
+              <div class="pc-score">86%</div>
+            </div>
+            <div class="pc-tags">
+              <span class="pc-tag">TensorFlow</span>
+              <span class="pc-tag">Distributed</span>
+              <span class="pc-tag">MLOps</span>
+            </div>
+            <div class="pc-actions">
+              <button class="pc-btn pc-btn-accept">&#10003; 接受</button>
+              <button class="pc-btn pc-btn-pass">跳过</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== PLAY RECRUITER PAGE ====== -->
+    <section class="page" id="page-recruiter">
+      <div class="page-header">
+        <h2 class="page-title">伯乐推荐</h2>
+        <p class="page-desc">认识适合某个职位的人？推荐他们，赢取奖励。</p>
+      </div>
+      <div class="recruiter-container">
+        <div class="recruiter-hero">
+          <div class="recruiter-hero-icon">&#127919;</div>
+          <div class="recruiter-hero-title">做一回伯乐</div>
+          <div class="recruiter-hero-desc">
+            优秀的人认识优秀的人。推荐一位朋友，告诉我们他们为什么会大放异彩，
+            成功入职后获得 $2,000 奖励。
+          </div>
+          <div class="recruiter-reward">&#9733; 每成功推荐一位奖励 $2,000</div>
+        </div>
+
+        <div class="referral-form">
+          <div class="referral-form-title">推荐一位优秀人才</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">对方姓名</label>
+              <input type="text" class="form-input" placeholder="王小明">
+            </div>
+            <div class="form-group">
+              <label class="form-label">对方邮箱</label>
+              <input type="email" class="form-input" placeholder="xiaoming@example.com">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">当前职位</label>
+              <input type="text" class="form-input" placeholder="ML工程师 @ Google">
+            </div>
+            <div class="form-group">
+              <label class="form-label">目标职位</label>
+              <input type="text" class="form-input" placeholder="高级ML工程师">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:20px">
+            <label class="form-label">为什么推荐这个人？</label>
+            <textarea class="dna-textarea" placeholder="告诉我们这个人有什么特别之处。他们的超能力是什么？为什么他们会在这家公司大放异彩？"></textarea>
+          </div>
+          <button class="btn btn-primary">&#128640; 提交推荐</button>
+        </div>
+
+        <div class="referral-list-title">你的推荐记录</div>
+        <div class="referral-list">
+          <div class="referral-item">
+            <div class="ri-avatar" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)">SP</div>
+            <div class="ri-info">
+              <div class="ri-name">赵晓彤</div>
+              <div class="ri-role">推荐职位：产品设计师 @ Figma</div>
+            </div>
+            <div class="ri-status interviewing">面试中</div>
+          </div>
+          <div class="referral-item">
+            <div class="ri-avatar" style="background:linear-gradient(135deg,#10b981,#34d399)">JC</div>
+            <div class="ri-info">
+              <div class="ri-name">陈俊</div>
+              <div class="ri-role">推荐职位：资深工程师 @ Stripe</div>
+            </div>
+            <div class="ri-status matched">已匹配！</div>
+          </div>
+          <div class="referral-item">
+            <div class="ri-avatar" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">LW</div>
+            <div class="ri-info">
+              <div class="ri-name">王丽</div>
+              <div class="ri-role">推荐职位：ML负责人 @ Anthropic</div>
+            </div>
+            <div class="ri-status pending">审核中</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== MUTUAL MATCH PAGE ====== -->
+    <section class="page" id="page-mutual">
+      <div class="page-header">
+        <h2 class="page-title">双向心愿</h2>
+        <p class="page-desc">添加你的梦想公司。如果对方也想要你——那就是双向匹配。</p>
+      </div>
+      <div class="mutual-container">
+        <div class="mutual-hero">
+          <div class="mutual-hero-icon">&#128274;</div>
+          <div class="mutual-hero-title">大胆许愿</div>
+          <div class="mutual-hero-desc">
+            你的秘密心愿单完全保密。只有当公司也把你加入他们的心愿单时，
+            双方才会收到通知。零风险，纯收益。
+          </div>
+        </div>
+
+        <div class="mutual-search">
+          <span class="mutual-search-icon">&#128269;</span>
+          <input type="text" class="mutual-search-input" placeholder="搜索公司，添加到你的心愿单...">
+        </div>
+
+        <div class="mutual-celebration">
+          <div class="mc-icon">&#127881;</div>
+          <div class="mc-info">
+            <div class="mc-title">双向匹配成功！</div>
+            <div class="mc-desc"><strong>Vercel</strong> 也把你加入了他们的心愿单，目标职位：前端架构师。你们已经建立连接！</div>
+          </div>
+          <button class="mc-action">查看匹配 &#8594;</button>
+        </div>
+
+        <div class="mutual-section-title">&#128274; 你的秘密心愿单（4 家公司）</div>
+        <div class="mutual-list">
+          <div class="mutual-item">
+            <div class="mi-logo" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">A</div>
+            <div class="mi-info">
+              <div class="mi-name">Anthropic</div>
+              <div class="mi-detail">AI 安全研究 &middot; 2 周前添加</div>
+            </div>
+            <span class="mi-lock">&#128274;</span>
+            <span class="mi-remove">&times;</span>
+          </div>
+          <div class="mutual-item">
+            <div class="mi-logo" style="background:linear-gradient(135deg,#10b981,#34d399)">S</div>
+            <div class="mi-info">
+              <div class="mi-name">Stripe</div>
+              <div class="mi-detail">金融基础设施 &middot; 1 周前添加</div>
+            </div>
+            <span class="mi-lock">&#128274;</span>
+            <span class="mi-remove">&times;</span>
+          </div>
+          <div class="mutual-item">
+            <div class="mi-logo" style="background:linear-gradient(135deg,#f43f5e,#fb7185)">L</div>
+            <div class="mi-info">
+              <div class="mi-name">Linear</div>
+              <div class="mi-detail">开发者工具 &middot; 3 天前添加</div>
+            </div>
+            <span class="mi-lock">&#128274;</span>
+            <span class="mi-remove">&times;</span>
+          </div>
+          <div class="mutual-item">
+            <div class="mi-logo" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)">V</div>
+            <div class="mi-info">
+              <div class="mi-name">Vercel</div>
+              <div class="mi-detail" style="color:var(--emerald)">&#10003; 双向匹配！</div>
+            </div>
+            <span style="color:var(--emerald);font-size:16px">&#9829;</span>
+            <span class="mi-remove">&times;</span>
+          </div>
+        </div>
+
+        <div class="mutual-section-title" style="margin-top:16px">&#9889; 推荐公司</div>
+        <div class="mutual-list">
+          <div class="mutual-item" style="cursor:pointer">
+            <div class="mi-logo" style="background:linear-gradient(135deg,#f97316,#fb923c)">D</div>
+            <div class="mi-info">
+              <div class="mi-name">Databricks</div>
+              <div class="mi-detail">数据与AI平台 &middot; 87% DNA匹配</div>
+            </div>
+            <button class="btn btn-ghost" style="padding:6px 14px;font-size:0.75rem">+ 添加</button>
+          </div>
+          <div class="mutual-item" style="cursor:pointer">
+            <div class="mi-logo" style="background:linear-gradient(135deg,#ec4899,#f472b6)">N</div>
+            <div class="mi-info">
+              <div class="mi-name">Notion</div>
+              <div class="mi-detail">生产力工具 &middot; 84% DNA匹配</div>
+            </div>
+            <button class="btn btn-ghost" style="padding:6px 14px;font-size:0.75rem">+ 添加</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════ */
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  const page = document.getElementById('page-' + pageId);
+  if (page) page.classList.add('active');
+
+  const nav = document.querySelector(`[data-page="${pageId}"]`);
+  if (nav) nav.classList.add('active');
+
+  // Close mobile nav
+  document.querySelector('.sidebar').classList.remove('open');
+
+  // Trigger counter animation on landing page
+  if (pageId === 'landing') animateCounters();
+}
+
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    navigateTo(item.dataset.page);
+  });
+});
+
+/* ═══════════════════════════════════════════
+   ANIMATED COUNTERS
+   ═══════════════════════════════════════════ */
+let countersAnimated = false;
+
+function animateCounters() {
+  if (countersAnimated) return;
+  countersAnimated = true;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+          const target = parseInt(el.dataset.target);
+          let current = 0;
+          const increment = target / 60;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              el.textContent = target.toLocaleString();
+              if (target < 100) el.textContent += '%';
+              clearInterval(timer);
+            } else {
+              el.textContent = Math.floor(current).toLocaleString();
+            }
+          }, 25);
+        });
+        observer.disconnect();
+      }
+    });
+  });
+
+  const statsSection = document.querySelector('.landing-stats');
+  if (statsSection) observer.observe(statsSection);
+}
+
+// Run on page load
+setTimeout(animateCounters, 500);
+
+/* ═══════════════════════════════════════════
+   CHIP SELECTION
+   ═══════════════════════════════════════════ */
+document.querySelectorAll('.dna-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('selected');
+  });
+});
+
+/* ═══════════════════════════════════════════
+   DNA QUESTION ENGINE — 30 QUESTIONS
+   8 dimensions: Pace, Collaboration, Decision,
+   Expression, Uncertainty, Growth, Motivation, Execution
+   ═══════════════════════════════════════════ */
+const DNA_QS=[
+// Q01
+{d:['Pace','Decision'],t:"你接手了一个新功能。产品经理说\u201C越快上线越好——先看看用户反应。\u201D经过评估，快速方案有明显技术缺陷但一周可上线；完善方案需要三周但架构更干净。",o:[
+ {l:'A',t:'先上线快速版本，收集数据，再决定是否重构'},
+ {l:'B',t:'和产品经理协商折中方案：两周交付一个可用版本'},
+ {l:'C',t:'主张采用完善方案，用数据说明技术债的长期成本'},
+ {l:'D',t:'先上线快速版本，同时启动重构计划避免债务累积'}]},
+// Q02
+{d:['Collaboration'],t:"周五下午——你发现了一个生产环境风险。不是严重bug，但下周可能出问题。团队大部分人已经下班了。",o:[
+ {l:'A',t:'自己花几个小时修复，周一站会时再同步'},
+ {l:'B',t:'在团队频道说明情况，看看有没有人想一起处理'},
+ {l:'C',t:'创建一个高优先级工单，周一第一件事解决'},
+ {l:'D',t:'联系最熟悉这块代码的同事，一起快速修复'}]},
+// Q03
+{d:['Uncertainty'],t:"你被分配到一个全新项目。主管说\u201C大方向在这里——自己想办法落地。\u201D没有规格说明，没有参考实现。",o:[
+ {l:'A',t:'兴奋——终于有机会从零开始定义一个东西'},
+ {l:'B',t:'先花几天研究类似产品和方案，再做决定'},
+ {l:'C',t:'回去找主管，尝试明确需求和边界'},
+ {l:'D',t:'快速搭一个最小原型，用它来推动更具体的讨论'}]},
+// Q04
+{d:['Expression'],t:"代码评审时，一位资深同事在你的PR上留了大量修改意见。仔细阅读后，你认为大部分是风格偏好而非真正的问题。",o:[
+ {l:'A',t:'逐条回复你的理由，引用文档或最佳实践'},
+ {l:'B',t:'约15分钟通话讨论主要分歧'},
+ {l:'C',t:'接受大部分建议——对方更资深，团队和谐更重要'},
+ {l:'D',t:'接受合理的部分；纯风格问题则说\u201C个人偏好——保持原样\u201D'}]},
+// Q05
+{d:['Motivation'],t:"四份offer的薪资、地点和职级完全相同。公司各有不同。你倾向哪个？",o:[
+ {l:'A',t:'一家做气候变化的公司——技术挑战大但商业模式尚未验证'},
+ {l:'B',t:'一家高速增长的公司——今年营收翻了三倍，期权可能很值钱'},
+ {l:'C',t:'一家工程文化卓越的公司——团队里有多位领域大牛'},
+ {l:'D',t:'一家盈利稳定的公司——工作生活平衡好，每年稳定涨薪'}]},
+// Q06
+{d:['Pace','Uncertainty'],t:"你找到两条技术路径：路径A经过验证但性能一般；路径B来自最新论文，理论效果出色但没有生产验证。截止日期是三个月后。",o:[
+ {l:'A',t:'选A——可靠低风险，肯定能按时交付'},
+ {l:'B',t:'花一周压力测试B；如果不行就切换到A'},
+ {l:'C',t:'选B——三个月够用，如果成功就是突破'},
+ {l:'D',t:'以A为主线推进，同时把B作为未来优化方向探索'}]},
+// Q07
+{d:['Collaboration','Growth'],t:"一个初级同事总是来问你同类问题。同一个概念你已经解释了两三遍。",o:[
+ {l:'A',t:'写文档或录视频，让对方以后可以自助查阅'},
+ {l:'B',t:'继续耐心解答——帮助别人也能加深自己的理解'},
+ {l:'C',t:'给对方推荐系统性的学习资源（课程、书籍），让其从根本上提升'},
+ {l:'D',t:'安排一次结对编程，端到端地演示解题过程'}]},
+// Q08
+{d:['Expression'],t:"Sprint规划会上，你认为提出的技术方案有严重缺陷——但方案来自团队主管。会议室里有八个人。",o:[
+ {l:'A',t:'当场提出你的顾虑，用清晰的理由支撑'},
+ {l:'B',t:'等会议结束后私下找主管讨论'},
+ {l:'C',t:'问一个温和的探索性问题，看主管是否自己发现问题'},
+ {l:'D',t:'会上不说，之后给主管发一份详细的书面分析'}]},
+// Q09 — 强制排序
+{d:['Motivation','Growth'],type:'rank',t:"从最重要到最不重要排序：",items:[
+ '成为前沿技术领域公认的专家',
+ '带领越来越大的团队',
+ '做一个改变世界的产品',
+ '获得出色的经济回报',
+ '拥有对自己时间和精力的自由掌控']},
+// Q10 — 预算分配
+{d:['Pace','Collaboration','Execution'],type:'budget',t:"分配你理想工作精力的 100%：",unit:'%',items:[
+ '独立执行（编码/设计/分析）',
+ '团队讨论、设计评审、结对',
+ '跨职能沟通（产品、业务）',
+ '学习新技术或探索新方向',
+ '文档、知识管理']},
+// Q11
+{d:['Decision'],t:"你的团队在评估三家基础设施迁移供应商。定量数据略微支持A供应商，但受信赖的工程师一致推荐B，说\u201C数据无法衡量开发者体验。\u201D",o:[
+ {l:'A',t:'建立加权评分卡，按数据排名，将口碑反馈标注为次要参考'},
+ {l:'B',t:'重视工程师的实际体验——推荐B并记录他们的理由'},
+ {l:'C',t:'设计一周结构化试用，让团队在真实任务上同时使用两者'},
+ {l:'D',t:'将数据和推荐都摆出来，引导团队讨论，让集体判断决定'}]},
+// Q12
+{d:['Pace','Execution'],t:"你负责一个每天被约40人使用的内部工具。有23个功能请求和8个bug报告。完全自主，没有截止日期，只需\u201C让它变好\u201D。你的前两周：",o:[
+ {l:'A',t:'挑出三个最多人要求的快速修复，几天内上线，用势头了解什么最重要'},
+ {l:'B',t:'用一周采访核心用户、梳理工作流，然后制定优先级路线图'},
+ {l:'C',t:'找出最有影响力的单个架构改进，花两周打好基础'},
+ {l:'D',t:'按工作量/影响力分类，第一周搞定快速胜利，然后重新评估'}]},
+// Q13
+{d:['Uncertainty'],t:"你的公司进入新市场。你在做demo但没人能确定潜在客户最关心哪些功能。两份分析报告意见不一，三次客户访谈各强调了不同痛点。",o:[
+ {l:'A',t:'选至少出现在两次对话中的痛点，做一个聚焦的demo，根据反应迭代'},
+ {l:'B',t:'做一个模块化demo，分三条线路，让销售可以实时调整'},
+ {l:'C',t:'反驳——在构建任何东西之前先安排五次以上客户调研'},
+ {l:'D',t:'围绕两份分析报告一致的框架设计demo，相信分析师看到了市场规律'}]},
+// Q14
+{d:['Decision','Uncertainty'],t:"你是技术负责人，入职六周。昨天竞对发布了与你们约60%重叠的产品。CEO要求当天评估：转向、加倍投入、还是其他？严谨分析需要三天。",o:[
+ {l:'A',t:'分享你诚实的直觉——六周的经验让你的判断有依据。速度很重要'},
+ {l:'B',t:'花一天做快速结构化分析——功能对比、差异化地图——标注明确的置信度'},
+ {l:'C',t:'告诉CEO当天决策很可能是错的。提议48小时评估'},
+ {l:'D',t:'召集90分钟团队讨论，汇集集体视角，提出团队立场'}]},
+// Q15
+{d:['Pace','Execution'],t:"你的团队刚在周五完成了一个大版本。周一，主管提到可以在两周后的全员大会上做一个可选的技术复盘。",o:[
+ {l:'A',t:'主动准备一个简短的10分钟复盘，趁细节还清晰'},
+ {l:'B',t:'先做一个深入的内部复盘下午，再提炼成精炼的全员演示'},
+ {l:'C',t:'建议跳过全员大会演示，改为快速异步复盘——周三前把要点写在共享文档'},
+ {l:'D',t:'主张做一个有数据支撑的正式复盘——周期时间、事故统计——可复用的'}]},
+// Q16
+{d:['Collaboration'],t:"高优先级项目，两周截止。三个模块可以并行开发。你负责一个，但整体架构还没有明确定义。",o:[
+ {l:'A',t:'基于你对接口的最佳假设开始构建，有了具体产出后再与他人对齐'},
+ {l:'B',t:'提议半天架构讨论，三个模块负责人一起先划定接口'},
+ {l:'C',t:'自己起草接口契约，分享后异步收集反馈——无异议就开始构建'},
+ {l:'D',t:'和耦合度最高的模块开发者结对，先一起设计这两个部分'}]},
+// Q17
+{d:['Expression','Decision'],t:"你做一个功能已经两周了，刚发现可能要延期3-4天。原因是不可预见的技术复杂度，而非规划不当。距离截止还有一周。",o:[
+ {l:'A',t:'立刻通知主管：\u201C提个醒——可能要延期3-4天。原因如下，调整后的计划是这样。\u201D'},
+ {l:'B',t:'先解决复杂度问题，这样汇报时能同时给出问题和解决方案'},
+ {l:'C',t:'在下次1:1或站会时顺便提——不算紧急到需要专门通知'},
+ {l:'D',t:'给主管和更大范围团队发一份详细书面更新，记录挑战和修改后的时间线'}]},
+// Q18
+{d:['Expression'],t:"你的团队为系统重设计的两种方案争论了一周。意见五五开，讨论原地打转。你有强烈的观点。没有指定决策者。",o:[
+ {l:'A',t:'写一份结构化对比文档，列出利弊和数据，明确要求本周内做出最终决定'},
+ {l:'B',t:'建议团队直接选一个推进——犹豫不决的代价比选\u201C稍微不对\u201D的方案更大'},
+ {l:'C',t:'私下与对方阵营的关键人物沟通，然后提出一个回应他们顾虑的修改版本'},
+ {l:'D',t:'提议限时技术探索：双方各用两天做一个小型概念验证，根据结果决定'}]},
+// Q19 — Execution Style (primary)
+{d:['Execution'],t:"你在负责一个涉及三个服务协调的功能，估计需要六周。主管问：\u201C你打算怎么跟踪进度？\u201D",o:[
+ {l:'A',t:'建立详细的项目跟踪器：周里程碑、依赖关系图、风险登记表。前两周每天简短同步'},
+ {l:'B',t:'创建轻量的共享文档列出三个关键里程碑和目标日期。接近里程碑时跟进'},
+ {l:'C',t:'保持非正式——你了解相关人员。需要更新时在Slack上问，在周会上提风险'},
+ {l:'D',t:'明确终态和第一个里程碑。第一个里程碑完成后再规划后续，那时对真实复杂度会更清楚'}]},
+// Q20 — Execution Style (cross-validation)
+{d:['Execution'],t:"你向team lead承诺周四交付一个组件。周二晚发现低估了工作量——周四交付就必须牺牲测试和错误处理。做到位的话周一才能交付。",o:[
+ {l:'A',t:'立刻通知lead：\u201C修正估期为周一。\u201D说明原因和调整后的计划。周一交付高质量版本'},
+ {l:'B',t:'全力冲刺周四——加班也行。承诺就是承诺，可靠性意味着说到做到'},
+ {l:'C',t:'周四先交付已完成部分，附上清晰的\u201C已知缺口\u201D清单，周一补齐质量工作'},
+ {l:'D',t:'先确认是否真有人需要周四拿到。如果deadline是软性的，悄悄调到周一'}]},
+// Q21
+{d:['Motivation'],t:"在公司干了两年，表现出色。一个猎头联系你谈一个同级别的职位。哪个因素最可能让你认真考虑离开？",o:[
+ {l:'A',t:'公司做的是深度有意义的事（气候、医疗），你的工作直接产生贡献'},
+ {l:'B',t:'清晰的加速晋升路径：12个月内审核更高职级并加薪'},
+ {l:'C',t:'团队由你所在领域最好的导师之一带领——她的前下属都说她改变了他们的职业生涯'},
+ {l:'D',t:'20%自主时间和每年1万美元预算，可以探索任何项目或技能，无需汇报'}]},
+// Q22
+{d:['Growth'],t:"公司给你一整周的带薪职业发展假。完全自由——不需要汇报或立即应用。你怎么用？",o:[
+ {l:'A',t:'参加核心技能的密集高级研讨会——从\u201C不错\u201D提升到\u201C出色\u201D'},
+ {l:'B',t:'刻意学习你领域之外的东西——如果你是开发就去做UX冲刺，做市场就去学数据科学'},
+ {l:'C',t:'跟随三位不同的高管——旁听他们的会议，了解他们如何做决策'},
+ {l:'D',t:'跳过课程。找一个公司里真正未解决的问题，花一周做出一个可用原型'}]},
+// Q23
+{d:['Collaboration'],t:"另一个部门的同事邀请你共同领导一个新的内部项目。有趣但模糊——没有方法论，领导让你们俩自己搞定。专业能力相当。",o:[
+ {l:'A',t:'按各自优势分成两个独立部分。各自端到端负责，每周同步'},
+ {l:'B',t:'所有事情一起做——关键交付物结对完成，联合会议，共享文档'},
+ {l:'C',t:'其中一人主导，另一人支持。谁都行——重要的是有明确的决策者'},
+ {l:'D',t:'开始时密集协作以达成共识，然后分头独立推进，最后合并'}]},
+// Q24 — 强制排序
+{d:['Motivation','Growth'],type:'rank',t:"从最吸引到最不吸引排序：",items:[
+ '深度影响专家——单一高风险问题，范围窄，不可替代的专业知识',
+ '快速成长通才——轮岗三个职能，每个都是挑战性任务',
+ '精通路线专家——最好的培训、会议、导师；两年内成为顶尖从业者',
+ '高杠杆运营者——跨职能、高曝光度、直接接触高管']},
+// Q25
+{d:['Growth'],t:"入行五年，口碑很好。重组产生两个职位：X角色（成为你领域的权威，制定标准，三年内成为行业专家）vs Y角色（在两个新的相邻领域做混合角色，经常是最没经验的人，三年内拥有独特的跨职能视角）。",o:[
+ {l:'A',t:'毫不犹豫选X——深度是稀缺的，在一件事上做到最好是职业护城河'},
+ {l:'B',t:'毫不犹豫选Y——广度创造深度无法带来的机会'},
+ {l:'C',t:'选X，但争取偶尔参与跨职能项目保持全面性'},
+ {l:'D',t:'选Y，但争取在原来的领域保留一个小型顾问角色'}]},
+// Q26
+{d:['Uncertainty'],t:"你的公司收购了一家创业公司。你被指派负责产品集成，但领导只给了高层愿景——没有路线图、没有成功指标，被收购团队的想法也互相矛盾。",o:[
+ {l:'A',t:'基于你的最佳理解开始构建，从实际结果中纠偏'},
+ {l:'B',t:'花两周采访双方利益相关者，整合出一份统一的方向文档'},
+ {l:'C',t:'提议一个小型可逆试点集成来测试假设，用结果来争取更明确的任务书'},
+ {l:'D',t:'向上反馈项目需要明确的范围和成功标准才能开展有意义的工作'}]},
+// Q27 — 预算分配
+{d:['Decision'],type:'budget',t:"分配100分到决策输入因素——反映你实际的权重，而非你认为应该的：",unit:'分',items:[
+ '定量证据——指标、A/B测试、基准',
+ '模式识别——过往经验和直觉',
+ '利益相关方共识——受影响方的一致意见',
+ '第一性原理推理——从约束条件进行逻辑推导']},
+// Q28
+{d:['Growth'],t:"同一天收到两个内部转岗offer。薪酬、职级、团队质量完全一样。Offer X：你精通4年的技术栈，成为无可争议的领域专家。Offer Y：全新领域，团队里最没经验的人，6个月以上的学习期。",o:[
+ {l:'A',t:'选X——深度创造不可替代的价值，总有更多可以精通的'},
+ {l:'B',t:'选Y——成长来自不适，做初学者让你保持敏锐和多面性'},
+ {l:'C',t:'选X但争取20%时间和Y团队交叉学习'},
+ {l:'D',t:'选Y但前提是能从当前领域带一个项目过去保持延续性'}]},
+// Q29
+{d:['Motivation'],t:"你的团队在三个月的冲刺后上线了一个大功能。主管让每人选一个奖励。所有选项都是真心提供的：",o:[
+ {l:'A',t:'VP在全员大会上公开表扬，明确提到你的具体贡献'},
+ {l:'B',t:'下次发薪时多发5000美元奖金，不搞仪式'},
+ {l:'C',t:'这个季度额外三天带薪假，随便怎么用'},
+ {l:'D',t:'下个季度完全自主选择做什么项目的权利'}]},
+// Q30
+{d:['Expression'],t:"市场部向大客户承诺六周交付一个功能。你的诚实工程估算是10-12周。新闻稿已经发了。销售VP对撤回承诺非常不满。这个客户是前三大营收客户。",o:[
+ {l:'A',t:'私下约市场负责人和销售VP，摆出技术现实，协商重新谈判'},
+ {l:'B',t:'承诺六周但缩减范围——按时交付最小版本，包装为\u201C第一阶段\u201D'},
+ {l:'C',t:'向CTO/CEO汇报，透明地呈现权衡，让领导层决定'},
+ {l:'D',t:'和销售VP一起直接面对客户，诚实地说明修改后的时间线'}]}
+];
+
+const DIM_LABELS={Pace:'工作节奏',Collaboration:'协作模式',Decision:'决策风格',Expression:'表达风格',Uncertainty:'不确定性容忍',Growth:'成长路径',Motivation:'驱动力',Execution:'执行风格'};
+let dnaIdx=0, dnaAnswers=new Array(DNA_QS.length).fill(null);
+
+function renderDnaQ(){
+  const q=DNA_QS[dnaIdx], total=DNA_QS.length;
+  document.getElementById('dna-progress-fill').style.width=((dnaIdx+1)/total*100)+'%';
+  document.getElementById('dna-counter').textContent='第 '+(dnaIdx+1)+' 题 / 共 '+total+' 题';
+  document.getElementById('dna-dims').innerHTML=q.d.map(d=>'<span class="dna-dim-tag">'+(DIM_LABELS[d]||d)+'</span>').join('');
+  document.getElementById('dna-title').textContent='';
+  const body=document.getElementById('dna-body');
+
+  if(q.type==='rank'){
+    const order=dnaAnswers[dnaIdx]||q.items.map((_,i)=>i);
+    dnaAnswers[dnaIdx]=order;
+    body.innerHTML='<div class="dna-scenario">'+q.t+'</div><div class="dna-rank-hint">用箭头调整顺序（1 = 最重要）</div><div class="dna-rank-list" id="dna-rank-list">'+
+      order.map((idx,pos)=>'<div class="dna-rank-item" data-pos="'+pos+'"><span class="dna-rank-num">'+(pos+1)+'</span><span class="dna-rank-text">'+q.items[idx]+'</span><div class="dna-rank-arrows"><button onclick="dnaRankMove('+pos+',-1)">\u25B2</button><button onclick="dnaRankMove('+pos+',1)">\u25BC</button></div></div>').join('')+'</div>';
+  } else if(q.type==='budget'){
+    const vals=dnaAnswers[dnaIdx]||q.items.map(()=>0);
+    dnaAnswers[dnaIdx]=vals;
+    body.innerHTML='<div class="dna-scenario">'+q.t+'</div><div class="dna-budget-hint">总计必须为 100'+q.unit+'</div><div class="dna-budget-list">'+
+      q.items.map((item,i)=>'<div class="dna-budget-row"><span class="dna-budget-label">'+item+'</span><input class="dna-budget-input" type="number" min="0" max="100" value="'+vals[i]+'" oninput="dnaUpdateBudget(this,'+i+')"><span>'+q.unit+'</span></div>').join('')+
+      '</div><div class="dna-budget-total" id="dna-budget-total"></div>';
+    dnaUpdateBudgetDisplay();
+  } else {
+    const sel=dnaAnswers[dnaIdx];
+    body.innerHTML='<div class="dna-scenario">'+q.t+'</div><div class="dna-options">'+
+      q.o.map((opt,i)=>'<div class="dna-option'+(sel===i?' selected':'')+'" onclick="dnaSelectOpt('+i+')"><span class="dna-option-marker">'+opt.l+'</span><span class="dna-option-text">'+opt.t+'</span></div>').join('')+'</div>';
+  }
+  document.getElementById('dna-prev').style.visibility=dnaIdx>0?'visible':'hidden';
+  document.getElementById('dna-next').textContent=dnaIdx===total-1?'完成 \u2192':'继续 \u2192';
+}
+
+function dnaSelectOpt(i){
+  dnaAnswers[dnaIdx]=i;
+  document.querySelectorAll('#dna-body .dna-option').forEach((el,j)=>el.classList.toggle('selected',j===i));
+}
+
+function dnaRankMove(pos,dir){
+  const order=dnaAnswers[dnaIdx], newPos=pos+dir;
+  if(newPos<0||newPos>=order.length) return;
+  [order[pos],order[newPos]]=[order[newPos],order[pos]];
+  renderDnaQ();
+}
+
+function dnaUpdateBudget(el,idx){
+  dnaAnswers[dnaIdx][idx]=parseInt(el.value)||0;
+  dnaUpdateBudgetDisplay();
+}
+
+function dnaUpdateBudgetDisplay(){
+  const vals=dnaAnswers[dnaIdx], sum=vals.reduce((a,b)=>a+b,0);
+  const q=DNA_QS[dnaIdx], cls=sum===100?'exact':sum>100?'over':'under';
+  document.getElementById('dna-budget-total').innerHTML='总计: <span class="val '+cls+'">'+sum+q.unit+'</span> / 100'+q.unit;
+  document.getElementById('dna-budget-total').className='dna-budget-total';
+}
+
+function nextDnaQ(){ if(dnaIdx<DNA_QS.length-1){dnaIdx++;renderDnaQ();} }
+function prevDnaQ(){ if(dnaIdx>0){dnaIdx--;renderDnaQ();} }
+renderDnaQ();
+
+/* ═══════════════════════════════════════════
+   DROP CARD FLIP
+   ═══════════════════════════════════════════ */
+function flipCard(card) {
+  card.classList.toggle('flipped');
+}
+
+function revealDrop() {
+  const cards = document.querySelectorAll('.drop-card');
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.classList.add('flipped');
+    }, i * 300);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   COUNTDOWN TIMER
+   ═══════════════════════════════════════════ */
+function updateTimer() {
+  const now = new Date();
+  const nextTuesday = new Date(now);
+  nextTuesday.setDate(now.getDate() + ((2 - now.getDay() + 7) % 7 || 7));
+  nextTuesday.setHours(21, 0, 0, 0);
+
+  if (now.getDay() === 2 && now.getHours() < 21) {
+    nextTuesday.setDate(now.getDate());
+  }
+
+  const diff = nextTuesday - now;
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+  const de = document.getElementById('timer-d');
+  const he = document.getElementById('timer-h');
+  const me = document.getElementById('timer-m');
+  const se = document.getElementById('timer-s');
+  if (de) de.textContent = String(d).padStart(2, '0');
+  if (he) he.textContent = String(h).padStart(2, '0');
+  if (me) me.textContent = String(m).padStart(2, '0');
+  if (se) se.textContent = String(s).padStart(2, '0');
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+</script>
+
+</body>
+</html>

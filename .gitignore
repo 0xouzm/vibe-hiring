@@ -1,0 +1,47 @@
+# MCP config (contains API keys)
+.mcp.json
+
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# Logs
+logs/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+
+# Next.js
+.next/
+out/
+
+# Database & Data
+*.db
+lightrag_data/
+
+# Build
+dist/
+
+# Docker
+app-data/
+
+# Playwright MCP logs
+.playwright-mcp/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
