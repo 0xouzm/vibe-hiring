@@ -172,3 +172,4 @@ bash scripts/dev-frontend.sh       # → http://localhost:3000
 - **Python**: Use `uv` exclusively, virtualenv as `.venv`
 - **Docs**: Chinese markdown in `docs/` (formal) and `discuss/` (drafts); all UI text in Chinese
 - **Scripts**: Run/debug scripts in `scripts/`, logs to `logs/`
+- **Screenshots**: `*.png` 已加入 `.gitignore`，截图不要提交到 git

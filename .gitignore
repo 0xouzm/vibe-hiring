@@ -42,6 +42,9 @@ app-data/
 *.swp
 *.swo
 
+# Screenshots
+*.png
+
 # OS
 .DS_Store
 Thumbs.db
