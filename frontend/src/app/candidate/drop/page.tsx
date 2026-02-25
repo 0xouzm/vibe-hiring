@@ -20,7 +20,7 @@ export default function WeeklyDropPage() {
     api
       .get<DropResponse>("/drops/current")
       .then(setDrop)
-      .catch(() => setError("Failed to load your weekly drop."))
+      .catch(() => setError("加载每周推荐失败。"))
       .finally(() => setLoading(false));
   }, []);
 
@@ -37,7 +37,7 @@ export default function WeeklyDropPage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <p className="text-text-dim text-sm">{error}</p>
         <Button variant="secondary" onClick={() => window.location.reload()}>
-          Retry
+          重试
         </Button>
       </div>
     );
@@ -52,11 +52,10 @@ export default function WeeklyDropPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold font-display text-text">
-          Your Tuesday Drop
+          每周匹配推荐
         </h1>
         <p className="text-sm text-text-dim mt-1">
-          Week of {drop.week} — {drop.matches.length} match
-          {drop.matches.length > 1 ? "es" : ""} found
+          {drop.week} — 共找到 {drop.matches.length} 个匹配
         </p>
       </div>
 
@@ -115,14 +114,14 @@ function MatchCard({
               </div>
               <Badge variant={scoreVariant} className="mt-1">
                 {scorePct >= 80
-                  ? "Strong Match"
+                  ? "高度匹配"
                   : scorePct >= 60
-                    ? "Good Fit"
-                    : "Partial Fit"}
+                    ? "良好匹配"
+                    : "部分匹配"}
               </Badge>
             </div>
             <Button size="sm" onClick={onViewReport}>
-              View Report
+              查看报告
             </Button>
           </div>
         </div>
@@ -166,11 +165,11 @@ function EmptyDropState() {
         </svg>
       </div>
       <h2 className="text-xl font-bold font-display text-text mb-2">
-        No Drops Yet
+        暂无推荐
       </h2>
       <p className="text-sm text-text-dim max-w-sm">
-        Your next weekly drop will arrive on Tuesday at 9 PM.
-        Make sure your Career DNA is complete to receive matches.
+        下一次每周推荐将于周二晚 9 点送达。
+        请确保你的职业 DNA 测评已完成，以便接收匹配。
       </p>
     </div>
   );

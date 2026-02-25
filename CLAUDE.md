@@ -56,7 +56,7 @@ The global CLAUDE.md mandates these constraints for any code written:
 - **Framework**: Next.js v15.3+ with React v19+, Tailwind CSS v4, TypeScript (ESM only, no CommonJS)
 - **File limits**: ≤300 lines per file (JS/TS), ≤8 files per directory level
 - **Strong typing**: All data structures must be typed; no `any` without explicit approval
-- **Docs**: Chinese markdown in `docs/` (formal) and `discuss/` (drafts); all UI text in English
+- **Docs**: Chinese markdown in `docs/` (formal) and `discuss/` (drafts); all UI text in Chinese
 - **Scripts**: Maintain run/debug shell scripts in `scripts/`
 - **Logging**: Configure file output to `logs/`
 - **Python** (if used for matching algorithm): Use `uv` exclusively, virtualenv as `.venv`

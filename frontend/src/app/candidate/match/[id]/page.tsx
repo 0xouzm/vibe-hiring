@@ -36,7 +36,7 @@ export default function MatchReportPage({
         setMatch(matchData);
         if (dnaData) setCandidateDna(dnaData);
       } catch {
-        setError("Failed to load match report.");
+        setError("加载匹配报告失败。");
       } finally {
         setLoading(false);
       }
@@ -55,9 +55,9 @@ export default function MatchReportPage({
   if (error || !match) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <p className="text-text-dim text-sm">{error ?? "Match not found."}</p>
+        <p className="text-text-dim text-sm">{error ?? "未找到匹配。"}</p>
         <Button variant="secondary" onClick={() => router.push("/candidate/drop")}>
-          Back to Drop
+          返回推荐页
         </Button>
       </div>
     );
@@ -88,7 +88,7 @@ export default function MatchReportPage({
             onClick={() => router.push("/candidate/drop")}
             className="text-sm text-text-dim hover:text-text mb-2 flex items-center gap-1 cursor-pointer"
           >
-            <BackArrow /> Back to Drop
+            <BackArrow /> 返回推荐页
           </button>
           <h1 className="text-2xl font-bold font-display text-text">
             {match.company_name}
@@ -100,10 +100,10 @@ export default function MatchReportPage({
           </div>
           <Badge variant={scoreVariant} className="mt-1">
             {scorePct >= 80
-              ? "Strong Match"
+              ? "高度匹配"
               : scorePct >= 60
-                ? "Good Fit"
-                : "Partial Fit"}
+                ? "良好匹配"
+                : "部分匹配"}
           </Badge>
         </div>
       </div>
@@ -113,10 +113,10 @@ export default function MatchReportPage({
         <Card className="mb-6">
           <CardHeader>
             <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-              DNA Comparison
+              DNA 对比
             </h2>
             <div className="flex gap-4 mt-2">
-              <Legend color="#6366f1" label="You" />
+              <Legend color="#6366f1" label="你的 DNA" />
               <Legend color="#F97316" label={match.company_name} />
             </div>
           </CardHeader>
@@ -135,7 +135,7 @@ export default function MatchReportPage({
         <Card className="mb-6">
           <CardHeader>
             <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-              Match Report
+              匹配报告
             </h2>
           </CardHeader>
           <CardContent>
@@ -174,10 +174,10 @@ function ActionSection({
           </svg>
         </div>
         <p className="text-lg font-semibold text-emerald">
-          Connection request sent!
+          连接请求已发送！
         </p>
         <p className="text-sm text-text-dim mt-1">
-          The company will be notified of your interest.
+          企业将收到你的意向通知。
         </p>
       </div>
     );
@@ -186,7 +186,7 @@ function ActionSection({
   if (actionState === "passed") {
     return (
       <div className="text-center py-8">
-        <p className="text-sm text-text-dim">Redirecting back to drop...</p>
+        <p className="text-sm text-text-dim">正在返回推荐页...</p>
       </div>
     );
   }
@@ -194,10 +194,10 @@ function ActionSection({
   return (
     <div className="flex items-center justify-center gap-4 py-8">
       <Button variant="secondary" size="lg" onClick={onPass}>
-        Pass
+        跳过
       </Button>
       <Button size="lg" onClick={onAccept}>
-        Accept Match
+        接受匹配
       </Button>
     </div>
   );

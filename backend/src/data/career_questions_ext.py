@@ -1,6 +1,6 @@
-"""Career DNA question bank — Q16 through Q30.
+"""Career DNA 题库 — Q16 至 Q30。
 
-Imported by career_questions.py to form the full 30-question bank.
+由 career_questions.py 导入以组成完整的 30 题题库。
 """
 
 from src.models.questionnaire import Question, QuestionOption, QuestionType
@@ -8,271 +8,249 @@ from src.models.questionnaire import Question, QuestionOption, QuestionType
 CAREER_QUESTIONS_EXT: list[Question] = [
     Question(
         id="Q16",
-        title="Collaboration Mode (cross-validation)",
+        title="协作模式（交叉验证）",
         scenario=(
-            "Your team just kicked off a high-priority project with a tight two-week "
-            "deadline. Three separate modules can technically be developed in parallel. "
-            "You're assigned one, but the overall architecture hasn't been clearly "
-            "defined. You would:"
+            "你的团队刚启动一个高优先级项目，截止日期只有两周。"
+            "三个独立模块可以并行开发。你负责其中一个，但整体架构还没定义清楚。你会："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Start building your module based on your best interface assumptions, then align with others once you have something concrete"),
-            QuestionOption(key="B", text="Propose a half-day architecture session where all three module owners sketch interfaces together before anyone codes"),
-            QuestionOption(key="C", text="Draft the interface contracts yourself and share for async feedback — if no objections within a few hours, start building"),
-            QuestionOption(key="D", text="Pair up with the developer on the most tightly coupled module and design your two pieces together first, then loop in the third person"),
+            QuestionOption(key="A", text="基于自己的最佳接口假设先开始做，等有具体产出后再和其他人对齐"),
+            QuestionOption(key="B", text="提议花半天让三个模块负责人一起画接口，然后再各自编码"),
+            QuestionOption(key="C", text="自己先拟一份接口契约，发出去征求异步反馈——如果几小时内没有异议就开工"),
+            QuestionOption(key="D", text="和耦合度最高的那个模块的开发者先结对设计，然后再拉第三个人"),
         ],
         dimensions=["collab"],
     ),
     Question(
         id="Q17",
-        title="Expression Style (cross-validation) + Decision Style",
+        title="表达风格（交叉验证）+ 决策风格",
         scenario=(
-            "You've been working on a feature for two weeks and just realized you'll "
-            "likely miss the deadline by 3-4 days due to unforeseen technical complexity, "
-            "not poor planning. There's still a week until the deadline. You would:"
+            "你做一个功能已经两周了，刚意识到可能会比截止日期晚 3-4 天——"
+            "原因是技术复杂度超出预期，不是规划失误。距离截止日期还有一周。你会："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Message your manager immediately: \"Heads up — hitting complexity on X, likely 3-4 days late. Here's why and my adjusted plan.\""),
-            QuestionOption(key="B", text="Finish working through the complexity first so you can present the problem alongside a concrete solution"),
-            QuestionOption(key="C", text="Bring it up casually at your next 1:1 or standup — not urgent enough for a special notification since there's still time"),
-            QuestionOption(key="D", text="Send a detailed written update to your manager and the broader team documenting the challenge, what you've tried, and the revised timeline"),
+            QuestionOption(key="A", text="立刻发消息给经理：『提个醒——X 遇到复杂度问题，可能晚 3-4 天。原因和调整后的计划如下。』"),
+            QuestionOption(key="B", text="先把复杂度攻克了，这样汇报时能同时呈现问题和解决方案"),
+            QuestionOption(key="C", text="在下一次 1:1 或站会上随口提一下——还有时间，不值得专门通知"),
+            QuestionOption(key="D", text="给经理和更广泛的团队发一份详细的书面更新，记录挑战、已尝试的方案和修正后的时间线"),
         ],
         dimensions=["expression", "decision"],
     ),
     Question(
         id="Q18",
-        title="Expression Style (key cross-validation)",
+        title="表达风格（关键交叉验证）",
         scenario=(
-            "Your team has been debating two competing approaches for a system redesign "
-            "for a week. The group is split 50/50 and the discussion is going in circles. "
-            "You have a strong opinion. There's no designated decision-maker. You would:"
+            "你的团队围绕系统重构的两个方案争论了一周，5:5 对半分，"
+            "讨论在绕圈子。你有很强的倾向。没有指定的决策者。你会："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Write a structured comparison document with pros/cons and data, share it, and explicitly call for a final decision by end of week"),
-            QuestionOption(key="B", text="Suggest the team just pick one and commit — indecision costs more than picking the \"slightly wrong\" approach"),
-            QuestionOption(key="C", text="Talk privately with key people on the other side to understand their concerns, then propose a modified version of your approach that addresses them"),
-            QuestionOption(key="D", text="Propose a time-boxed spike: each side builds a small proof-of-concept in two days, then decide based on concrete results"),
+            QuestionOption(key="A", text="写一份结构化对比文档，列出利弊和数据，分享后明确要求本周内做出最终决定"),
+            QuestionOption(key="B", text="建议团队直接选一个然后全力投入——犹豫不决的代价比选『稍微不对』的方案更大"),
+            QuestionOption(key="C", text="私下和对方阵营的关键人物聊，了解他们的顾虑，然后提出一个吸收了他们关切的修改版方案"),
+            QuestionOption(key="D", text="提议一个限时 spike：双方各用两天做一个小 POC，然后基于实际结果决定"),
         ],
         dimensions=["expression"],
     ),
     Question(
         id="Q19",
-        title="Execution Style",
+        title="执行风格（主测）",
         scenario=(
-            "You're leading a feature that involves coordinating work across three "
-            "services. You've estimated it at six weeks. Your manager asks: \"How will "
-            "you track progress?\""
+            "你负责一个需要跨三个服务协调的功能，估计需要六周。"
+            "经理问：『你打算怎么跟踪进度？』"
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Set up a detailed project tracker with weekly milestones, dependency maps, and a risk register. Schedule brief daily syncs with contributors for the first two weeks"),
-            QuestionOption(key="B", text="Create a lightweight shared doc listing the three key milestones and their target dates. Check in with contributors as each milestone approaches"),
-            QuestionOption(key="C", text="Keep it informal — you know the people involved. Ping them in Slack when you need updates, and flag risks in your weekly 1:1 with your manager"),
-            QuestionOption(key="D", text="Define the end state and first milestone clearly. Re-plan the rest after milestone one lands, when you'll know more about actual complexity"),
+            QuestionOption(key="A", text="搭建详细的项目跟踪器，包含周里程碑、依赖关系图和风险登记表。前两周安排每日简短同步会"),
+            QuestionOption(key="B", text="创建一个轻量级共享文档，列出三个关键里程碑和目标日期。每个里程碑临近时和相关人核对"),
+            QuestionOption(key="C", text="保持非正式——你了解相关的人。需要更新时在 Slack 上 ping 他们，风险在每周 1:1 中标记"),
+            QuestionOption(key="D", text="明确定义终态和第一个里程碑。第一个里程碑完成后再规划后续——届时你对实际复杂度更有数"),
         ],
         dimensions=["execution"],
     ),
     Question(
         id="Q20",
-        title="Execution Style (cross-validation)",
+        title="执行风格（交叉验证）",
         scenario=(
-            "You promised your team lead you'd deliver a component by Thursday. "
-            "Tuesday evening you realize you underestimated the work — hitting Thursday "
-            "means cutting corners on test coverage and error handling. Doing it "
-            "properly means delivering Monday instead. You would:"
+            "你向 team lead 承诺了周四交付一个组件。周二晚上你发现低估了工作量——"
+            "要在周四交付就必须牺牲测试覆盖和错误处理的质量。"
+            "如果做到位，周一才能交付。你会："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Message your lead immediately: \"Revising estimate to Monday. Here's what I underestimated and my adjusted plan.\" Deliver a high-quality version on Monday"),
-            QuestionOption(key="B", text="Push hard for Thursday — work late if needed. A commitment is a commitment; reliability means delivering on your word"),
-            QuestionOption(key="C", text="Deliver what's done by Thursday with a clear \"known gaps\" list, then complete the remaining quality work by Monday"),
-            QuestionOption(key="D", text="Check whether anyone actually needs it Thursday or if the deadline is soft. If there's flexibility, quietly shift to Monday"),
+            QuestionOption(key="A", text="立刻发消息给 lead：『修正估期为周一。以下是我低估的部分和调整后的计划。』周一交付高质量版本"),
+            QuestionOption(key="B", text="全力冲刺周四——加班也行。承诺就是承诺，可靠性意味着说到做到"),
+            QuestionOption(key="C", text="周四先交付已完成的部分，附上一份清晰的『已知缺口』清单，然后周一补齐剩余质量工作"),
+            QuestionOption(key="D", text="先确认是否真的有人需要周四拿到，还是这个 deadline 本来就是软性的。如果有弹性，悄悄改到周一"),
         ],
         dimensions=["execution"],
     ),
     Question(
         id="Q21",
-        title="Motivation Source (cross-validation)",
+        title="驱动力来源（交叉验证）",
         scenario=(
-            "You've been at your company for two years, performing well. A recruiter "
-            "contacts you about a new role — same salary, same commute, equivalent "
-            "title. Which single factor would most likely make you seriously consider "
-            "leaving?"
+            "你在公司干了两年，表现很好。一个猎头联系你，新职位薪资、通勤、"
+            "职级都一样。哪个因素最可能让你认真考虑跳槽？"
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="The new company is working on a problem you find deeply meaningful — climate, healthcare, or education — and your work directly contributes to that mission"),
-            QuestionOption(key="B", text="The new role offers a clear, accelerated promotion path: formal senior-title review within 12 months with a compensation bump"),
-            QuestionOption(key="C", text="The team is led by someone widely regarded as one of the best mentors in your field — former reports credit her with transforming their careers"),
-            QuestionOption(key="D", text="The company gives every employee 20% discretionary time and a $10K annual budget to explore any project or skill, no questions asked"),
+            QuestionOption(key="A", text="新公司在做你觉得非常有意义的事——气候、医疗或教育——你的工作直接贡献于这个使命"),
+            QuestionOption(key="B", text="新岗位有清晰的加速晋升路径：12 个月内正式评审高级职称，并有薪酬提升"),
+            QuestionOption(key="C", text="团队由一位公认的领域顶级导师领导——她的前下属都说她彻底改变了他们的职业生涯"),
+            QuestionOption(key="D", text="公司给每位员工 20% 自主时间和每年 1 万美元预算去探索任何项目或技能，无需审批"),
         ],
         dimensions=["motiv"],
     ),
     Question(
         id="Q22",
-        title="Growth Path",
+        title="成长路径（主测）",
         scenario=(
-            "Your company gives you a full week of paid professional development. "
-            "No strings — no expectation to report back or apply it immediately. "
-            "How do you spend it?"
+            "公司给你一周带薪职业发展时间，完全自由——不要求汇报或立即应用。"
+            "你会怎么用？"
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Intensive advanced workshop in your core skill area — move from \"good\" to \"exceptional\" in what you already do"),
-            QuestionOption(key="B", text="Something deliberately outside your domain — a UX sprint if you're a developer, a data science bootcamp if you're in marketing"),
-            QuestionOption(key="C", text="Shadow three different senior leaders — sit in their meetings, understand how they make decisions, see the organizational big picture"),
-            QuestionOption(key="D", text="Skip courses entirely. Identify a real unsolved problem at your company and spend the week building a working prototype"),
+            QuestionOption(key="A", text="参加核心技能领域的高级进阶研讨——从『不错』变成『卓越』"),
+            QuestionOption(key="B", text="有意跨出自己的领域——开发者去做 UX 冲刺，市场人去上数据科学训练营"),
+            QuestionOption(key="C", text="跟三位不同的高管各待一天——旁听他们的会议，理解决策方式，看到组织全局"),
+            QuestionOption(key="D", text="跳过课程。找一个公司里真正没解决的问题，花一周做出一个可用原型"),
         ],
         dimensions=["growth"],
     ),
     Question(
         id="Q23",
-        title="Collaboration Mode (cross-validation, growth lens)",
+        title="协作模式（交叉验证，成长视角）",
         scenario=(
-            "A colleague from another department invites you to co-lead a new internal "
-            "initiative. The project is interesting but ambiguous — no playbook, and "
-            "leadership will leave you two to figure it out. You both have roughly equal "
-            "expertise. How do you structure the partnership?"
+            "另一个部门的同事邀请你共同主导一个新的内部项目。项目有趣但模糊——"
+            "没有 playbook，领导层让你们俩自己搞定。你们的专业水平大致相当。"
+            "你怎么组织合作？"
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Divide into two distinct halves based on strengths. Each owns their section end-to-end, sync weekly. Clear boundaries, clear ownership"),
-            QuestionOption(key="B", text="Work on everything together — pair on key deliverables, joint meetings, shared documents. Slower but deeply collaborative output"),
-            QuestionOption(key="C", text="One of you takes the lead, the other supports. You're fine being either — what matters is a clear decision-maker"),
-            QuestionOption(key="D", text="Intensive co-working session at the start to align on vision, then split off independently for the bulk, reconvene for final integration"),
+            QuestionOption(key="A", text="根据各自优势分成两个独立部分，各自端到端负责，每周同步。清晰边界，清晰所有权"),
+            QuestionOption(key="B", text="所有事情一起做——关键交付物结对，联合开会，共享文档。慢一点但产出是深度协作的"),
+            QuestionOption(key="C", text="一个人主导，另一个支持。你哪边都行——重要的是有一个明确的决策者"),
+            QuestionOption(key="D", text="一开始密集共创对齐愿景，然后各自独立推进主体工作，最后汇合做集成"),
         ],
         dimensions=["collab"],
     ),
     Question(
         id="Q24",
-        title="Motivation + Growth Path combined (Forced Ranking)",
-        scenario=(
-            "Rank these role configurations from most to least appealing "
-            "(1 = most, 4 = least):"
-        ),
+        title="驱动力 + 成长路径组合（强制排序）",
+        scenario="按吸引力从高到低排列以下角色定位（1=最高，4=最低）：",
         type=QuestionType.ranking,
         options=[
-            QuestionOption(key="A", text="Deep Impact Specialist — Single high-stakes problem affecting thousands of users. Narrow scope, irreplaceable expertise. Success = tangible difference in people's lives"),
-            QuestionOption(key="B", text="Rapid-Growth Generalist — Rotate across three functions in two years. Each rotation is a stretch assignment. Success = speed of effectiveness in unfamiliar territory"),
-            QuestionOption(key="C", text="Mastery-Track Expert — Go deep with the best training, conferences, mentors. In two years, among the top practitioners in your specialty. Success = peer recognition and craft excellence"),
-            QuestionOption(key="D", text="High-Leverage Operator — Cross-functional, high-visibility, direct access to senior leadership. Broad, sometimes chaotic. Success = business outcomes and expanding scope"),
+            QuestionOption(key="A", text="深度影响专家——专注一个影响数千用户的高风险问题。范围窄，不可替代的专业能力。成功 = 对人们生活的切实改变"),
+            QuestionOption(key="B", text="快速成长通才——两年内轮转三个职能，每次都是拉伸型任务。成功 = 在陌生领域快速产出的能力"),
+            QuestionOption(key="C", text="精通赛道专家——在最好的培训、会议、导师支持下深耕。两年后成为该领域顶尖从业者。成功 = 同行认可与技艺卓越"),
+            QuestionOption(key="D", text="高杠杆操盘手——跨职能、高曝光、直接接触高管。广泛而有时混乱。成功 = 业务成果和不断扩大的影响范围"),
         ],
         dimensions=["motiv", "growth"],
     ),
     Question(
         id="Q25",
-        title="Growth Path (cross-validation, specialist vs. generalist)",
+        title="成长路径（交叉验证，专精 vs. 通才）",
         scenario=(
-            "You're five years in and have a strong reputation in your primary skill. "
-            "A restructuring creates two new positions; you're the top candidate for either:\n\n"
-            "Role X: Go-to authority for your discipline company-wide. Set standards, "
-            "review critical work, mentor specialists. Depth deepens, scope stays within "
-            "your domain. In three years: industry-level expert.\n\n"
-            "Role Y: Hybrid role combining your skill with two adjacent areas you've "
-            "never formally worked in. First year you'll often be the least experienced "
-            "person in the room. In three years: a unique cross-functional perspective "
-            "few possess."
+            "你已经干了五年，在主要技能上有很强的声誉。一次重组产生了两个新岗位，"
+            "你是两个的首选候选人：\n\n"
+            "角色 X：成为全公司你所在学科的权威。制定标准、审核关键工作、指导专家。"
+            "深度继续加深，范围留在你的领域内。三年后：行业级专家。\n\n"
+            "角色 Y：混合角色，将你的技能与两个你从未正式涉足的相邻领域结合。"
+            "第一年你经常是房间里经验最少的人。三年后：少有人具备的独特跨职能视角。"
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Role X, without hesitation — depth is rare, being the best at one thing is career-proof"),
-            QuestionOption(key="B", text="Role Y, without hesitation — breadth creates opportunities depth can't, being a beginner again is worth the long-term versatility"),
-            QuestionOption(key="C", text="Role X, but with some reluctance — you'd negotiate for occasional cross-functional projects to stay rounded"),
-            QuestionOption(key="D", text="Role Y, but with some reluctance — you'd negotiate to keep a small advisory role in your original domain"),
+            QuestionOption(key="A", text="毫不犹豫选 X——深度稀缺，在一件事上做到最好就是职业护城河"),
+            QuestionOption(key="B", text="毫不犹豫选 Y——广度创造深度无法给予的机会，重新做回初学者值得长期的多面性"),
+            QuestionOption(key="C", text="选 X，但有些犹豫——你会争取偶尔参与跨职能项目以保持全面"),
+            QuestionOption(key="D", text="选 Y，但有些犹豫——你会争取在原来的领域保留一个小的顾问角色"),
         ],
         dimensions=["growth"],
     ),
     Question(
         id="Q26",
-        title="Uncertainty Tolerance (cross-validation)",
+        title="不确定性容忍（交叉验证）",
         scenario=(
-            "Your company just acquired a startup. You're assigned to integrate their "
-            "product, but leadership provides only a high-level vision — no roadmap, "
-            "no success metrics, and the acquired team has conflicting ideas. Your "
-            "first month:"
+            "公司刚收购了一家初创公司。你被指派做产品整合，但领导层只给了高层愿景——"
+            "没有路线图、没有成功指标，被收购团队内部意见也不统一。"
+            "你的第一个月："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Start building based on your best interpretation, course-correct as you learn from real results"),
-            QuestionOption(key="B", text="Spend two weeks interviewing stakeholders on both sides, synthesize a unified direction document before coding"),
-            QuestionOption(key="C", text="Propose a small reversible pilot integration to test assumptions, use outcomes to negotiate a clearer mandate"),
-            QuestionOption(key="D", text="Escalate that the project needs defined scope and success criteria before meaningful work can begin"),
+            QuestionOption(key="A", text="按自己的最佳理解开始做，从实际结果中学习并修正方向"),
+            QuestionOption(key="B", text="花两周访谈双方利益相关者，在编码之前整合出一份统一的方向文档"),
+            QuestionOption(key="C", text="提议一个小型可逆的试点整合来验证假设，用结果去争取更明确的授权"),
+            QuestionOption(key="D", text="向上反馈：项目需要先明确范围和成功标准，才能开展有意义的工作"),
         ],
         dimensions=["unc"],
     ),
     Question(
         id="Q27",
-        title="Decision Style (Budget Allocation)",
+        title="决策风格（预算分配）",
         scenario=(
-            "Allocate 100 points across these inputs when making a major decision — "
-            "reflect how you actually weigh each, not how you think you should:"
+            "做重大决策时，给以下输入分配 100 分——"
+            "反映你实际的权重，而非你觉得应该怎样："
         ),
         type=QuestionType.budget,
         options=[
-            QuestionOption(key="A", text="Quantitative evidence — metrics, A/B tests, benchmarks, market data"),
-            QuestionOption(key="B", text="Pattern recognition — past experience and gut sense of what works"),
-            QuestionOption(key="C", text="Stakeholder consensus — alignment among affected people"),
-            QuestionOption(key="D", text="First-principles reasoning — logical deduction from fundamental constraints"),
+            QuestionOption(key="A", text="量化证据——指标、A/B 测试、基准、市场数据"),
+            QuestionOption(key="B", text="模式识别——过往经验和直觉判断"),
+            QuestionOption(key="C", text="利益相关者共识——受影响人群的认同"),
+            QuestionOption(key="D", text="第一性原理推导——从基本约束出发的逻辑推理"),
         ],
         dimensions=["decision"],
     ),
     Question(
         id="Q28",
-        title="Growth Path (cross-validation)",
+        title="成长路径（交叉验证）",
         scenario=(
-            "You receive two internal transfer offers on the same day. Identical "
-            "compensation, title, and team quality.\n\n"
-            "Offer X: Senior role on a team working in the exact tech stack you've spent "
-            "4 years mastering. You'd become the undisputed domain expert, mentor juniors, "
-            "own the technical roadmap.\n\n"
-            "Offer Y: Senior role on a newly formed team exploring a domain you've never "
-            "touched. You'd be the least experienced person, spend 6+ months ramping up, "
-            "but gain entirely different exposure."
+            "你同一天收到两个内部转岗 offer，薪酬、职级、团队质量完全相同。\n\n"
+            "Offer X：在你已经精通 4 年的技术栈上做高级角色。你将成为"
+            "无可争议的领域专家，指导新人，掌控技术路线图。\n\n"
+            "Offer Y：在一个全新组建的团队做高级角色，探索你从未接触的领域。"
+            "你将是经验最少的人，需要 6 个月以上的学习曲线，但会获得完全不同的视野。"
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Take X — depth creates irreplaceable value, there's always more to master even in a \"known\" domain"),
-            QuestionOption(key="B", text="Take Y — growth comes from discomfort, being a beginner again keeps you sharp and versatile"),
-            QuestionOption(key="C", text="Take X but negotiate 20% time to cross-train with the Y team on the side"),
-            QuestionOption(key="D", text="Take Y but only if you can bring one project from your current domain to maintain continuity"),
+            QuestionOption(key="A", text="选 X——深度创造不可替代的价值，即使在『已知』领域也总有更多可以精通的"),
+            QuestionOption(key="B", text="选 Y——成长来自不适，重做初学者让你保持敏锐和多面"),
+            QuestionOption(key="C", text="选 X，但争取 20% 时间跟 Y 团队交叉学习"),
+            QuestionOption(key="D", text="选 Y，但前提是能从现有领域带一个项目过去，保持连续性"),
         ],
         dimensions=["growth"],
     ),
     Question(
         id="Q29",
-        title="Motivation Source (cross-validation)",
+        title="驱动力来源（交叉验证）",
         scenario=(
-            "Your team just shipped a major feature after a grueling 3-month push. "
-            "Your manager asks each person to pick one reward. All genuinely offered, "
-            "no judgment:"
+            "团队刚经历了三个月的艰苦冲刺，发布了一个重大功能。"
+            "经理让每人选一个奖励，全部真诚提供，不带评判："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="A public shout-out from the VP at the all-hands, recognizing you by name for your specific contribution"),
-            QuestionOption(key="B", text="A $5,000 spot bonus deposited in your next paycheck, no ceremony"),
-            QuestionOption(key="C", text="Three extra PTO days to use however you want this quarter"),
-            QuestionOption(key="D", text="The right to choose what you work on next — full autonomy over your next project for one quarter"),
+            QuestionOption(key="A", text="VP 在 all-hands 上点名表扬你的具体贡献"),
+            QuestionOption(key="B", text="5000 美元即时奖金，打入下个月工资，没有仪式"),
+            QuestionOption(key="C", text="本季度额外三天带薪假，随便怎么用"),
+            QuestionOption(key="D", text="下一个季度完全自主选择做什么项目的权利"),
         ],
         dimensions=["motiv"],
     ),
     Question(
         id="Q30",
-        title="Expression Style, cross-functional (cross-validation)",
+        title="表达风格，跨职能（交叉验证）",
         scenario=(
-            "Marketing has promised a major client that a feature will be ready in 6 "
-            "weeks. You're the engineering lead; your honest estimate is 10-12 weeks. "
-            "A press release has already gone out. The sales VP is furious at the idea "
-            "of walking it back. The client is a top-3 revenue account. You would:"
+            "市场部已经向大客户承诺一个功能 6 周内上线。你是工程负责人，"
+            "诚实估计需要 10-12 周。新闻稿已经发了，销售 VP 对延期的想法很愤怒。"
+            "该客户是前三大营收客户。你会："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="Meet privately with the marketing lead and sales VP together, lay out the technical reality, collaboratively renegotiate the timeline before anyone talks to the client"),
-            QuestionOption(key="B", text="Commit to the 6-week deadline but immediately cut scope — ship a minimal version on time, frame it as \"Phase 1\""),
-            QuestionOption(key="C", text="Escalate to your shared executive (CTO/CEO), present the tradeoffs transparently, let leadership decide how to handle the external commitment"),
-            QuestionOption(key="D", text="Go directly to the client with the sales VP, honestly explain the revised timeline, and offer a concrete interim solution to maintain trust"),
+            QuestionOption(key="A", text="和市场负责人、销售 VP 开私下会议，摆出技术现实，在跟客户沟通之前先内部协商出新时间线"),
+            QuestionOption(key="B", text="承诺 6 周期限但立即砍范围——按时交付一个最小版本，定义为『第一期』"),
+            QuestionOption(key="C", text="上报给你们共同的高管（CTO/CEO），透明呈现取舍，让领导层决定如何处理对外承诺"),
+            QuestionOption(key="D", text="和销售 VP 一起直接去找客户，坦诚说明修正后的时间线，并提供一个具体的过渡方案以维护信任"),
         ],
         dimensions=["expression"],
     ),

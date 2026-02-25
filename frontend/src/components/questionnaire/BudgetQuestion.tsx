@@ -68,7 +68,7 @@ export function BudgetQuestion({
         {question.scenario}
       </p>
       <p className="text-xs text-text-muted mb-6">
-        Distribute exactly 100 points across the options below.
+        将 100 分精确分配到以下选项中。
       </p>
 
       <div className="grid gap-4">
@@ -99,7 +99,7 @@ export function BudgetQuestion({
 
       {/* Total indicator */}
       <div className="mt-6 flex items-center justify-between px-4 py-3 rounded-[var(--radius-lg)] border border-glass-border bg-surface">
-        <span className="text-sm text-text-dim">Total</span>
+        <span className="text-sm text-text-dim">总计</span>
         <span
           className={[
             "text-lg font-bold",

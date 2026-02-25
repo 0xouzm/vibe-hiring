@@ -20,10 +20,10 @@ export function ProgressHeader({
       {/* Top labels */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm text-text-dim">
-          Question {currentIndex + 1} of {totalQuestions}
+          第 {currentIndex + 1} 题 / 共 {totalQuestions} 题
         </span>
         <span className="text-sm font-medium text-indigo">
-          {answeredCount} / {totalQuestions} answered
+          已答 {answeredCount} / {totalQuestions} 题
         </span>
       </div>
 

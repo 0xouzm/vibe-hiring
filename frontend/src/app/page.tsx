@@ -52,7 +52,7 @@ export default function LandingPage() {
       localStorage.setItem("talentdrop_user", JSON.stringify(res.user));
       router.push(user.redirect);
     } catch {
-      setError(`Failed to login as ${user.name}. Is the backend running?`);
+      setError(`以 ${user.name} 身份登录失败，请确认后端服务是否已启动。`);
     } finally {
       setLoading(null);
     }
@@ -66,18 +66,18 @@ export default function LandingPage() {
           TalentDrop
         </h1>
         <p className="text-xl text-text-dim leading-relaxed mb-8">
-          Find where you truly belong.
+          找到你真正属于的地方
         </p>
         <div className="flex gap-4 justify-center">
           <Button size="lg" onClick={() => router.push("/candidate/questionnaire")}>
-            I&apos;m a Candidate
+            我是候选人
           </Button>
           <Button
             variant="secondary"
             size="lg"
             onClick={() => router.push("/company/questionnaire")}
           >
-            I&apos;m Hiring
+            我是招聘方
           </Button>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function LandingPage() {
       {/* ── Quick Login Section ─────────────────────────── */}
       <div className="w-full max-w-3xl">
         <h2 className="text-center text-sm font-medium text-text-dim uppercase tracking-wide mb-6">
-          Demo Quick Login
+          快速体验登录
         </h2>
 
         {error && (
@@ -98,7 +98,7 @@ export default function LandingPage() {
         {/* Candidates */}
         <div className="mb-8">
           <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-3">
-            Candidates
+            候选人
           </h3>
           <div className="grid grid-cols-3 gap-2">
             {SEED_CANDIDATES.map((u) => (
@@ -115,7 +115,7 @@ export default function LandingPage() {
         {/* HR */}
         <div>
           <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-3">
-            Company HR
+            企业 HR
           </h3>
           <div className="grid grid-cols-3 gap-2">
             {SEED_HRS.map((u) => (
@@ -133,16 +133,16 @@ export default function LandingPage() {
       {/* ── Feature cards ──────────────────────────────── */}
       <div className="grid grid-cols-3 gap-6 mt-16 w-full max-w-3xl">
         <FeatureCard
-          title="Career DNA"
-          desc="50+ dimension deep profile through behavioral scenarios"
+          title="职业 DNA"
+          desc="通过行为场景构建 50+ 维度的深度画像"
         />
         <FeatureCard
-          title="Weekly Drop"
-          desc="Curated matches revealed every Tuesday at 9 PM"
+          title="每周推荐"
+          desc="每周二晚 9 点揭晓精选匹配结果"
         />
         <FeatureCard
-          title="Smart Match"
-          desc="AI-powered compatibility scoring with detailed reports"
+          title="智能匹配"
+          desc="AI 驱动的兼容性评分与详细报告"
         />
       </div>
     </div>
@@ -171,7 +171,7 @@ function SeedLoginButton({
         user.role === "hr" ? "text-amber" : "text-indigo",
       ].join(" ")}
     >
-      {loading ? "Logging in..." : user.name}
+      {loading ? "登录中..." : user.name}
     </button>
   );
 }

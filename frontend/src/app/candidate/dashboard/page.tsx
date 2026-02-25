@@ -31,7 +31,7 @@ export default function CandidateDashboard() {
     api
       .get<DNAScoreResponse>(`/scores/candidate/${user.id}`)
       .then(setDna)
-      .catch(() => setError("No DNA profile found. Complete the questionnaire first."))
+      .catch(() => setError("未找到 DNA 画像，请先完成问卷测评。"))
       .finally(() => setLoading(false));
   }, [user]);
 
@@ -46,9 +46,9 @@ export default function CandidateDashboard() {
   if (error || !dna) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <p className="text-text-dim text-sm">{error ?? "No DNA data."}</p>
+        <p className="text-text-dim text-sm">{error ?? "暂无 DNA 数据。"}</p>
         <Button onClick={() => router.push("/candidate/questionnaire")}>
-          Take Questionnaire
+          开始测评
         </Button>
       </div>
     );
@@ -64,14 +64,14 @@ export default function CandidateDashboard() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold font-display text-text">
-            Your Career DNA
+            你的职业 DNA
           </h1>
           <p className="text-sm text-text-dim mt-1">
-            8-dimension behavioral profile based on your questionnaire responses
+            基于问卷回答的 8 维度行为画像
           </p>
         </div>
         <Badge variant={consistencyVariant}>
-          Consistency: {consistencyPct}%
+          一致性：{consistencyPct}%
         </Badge>
       </div>
 
@@ -80,7 +80,7 @@ export default function CandidateDashboard() {
         <Card>
           <CardHeader>
             <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-              DNA Overview
+              DNA 概览
             </h2>
           </CardHeader>
           <CardContent className="flex items-center justify-center pb-6">
@@ -92,7 +92,7 @@ export default function CandidateDashboard() {
         <Card>
           <CardHeader>
             <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-              Dimension Breakdown
+              维度详情
             </h2>
           </CardHeader>
           <CardContent>
@@ -112,7 +112,7 @@ export default function CandidateDashboard() {
       {/* CTA */}
       <div className="mt-8 text-center">
         <Button size="lg" onClick={() => router.push("/candidate/drop")}>
-          View Weekly Drop
+          查看每周推荐
         </Button>
       </div>
     </div>

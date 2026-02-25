@@ -57,7 +57,7 @@ export function RankQuestion({
         {question.scenario}
       </p>
       <p className="text-xs text-text-muted mb-6">
-        Drag to rank, or use the arrows. Top = most important.
+        使用箭头调整排序，顶部 = 最重要。
       </p>
 
       <div className="grid gap-2">
@@ -82,7 +82,7 @@ export function RankQuestion({
                 onClick={() => moveUp(idx)}
                 disabled={idx === 0}
                 className="p-1 rounded text-text-dim hover:text-text disabled:opacity-25 cursor-pointer disabled:cursor-not-allowed"
-                aria-label="Move up"
+                aria-label="上移"
               >
                 <ArrowUp />
               </button>
@@ -90,7 +90,7 @@ export function RankQuestion({
                 onClick={() => moveDown(idx)}
                 disabled={idx === ranking.length - 1}
                 className="p-1 rounded text-text-dim hover:text-text disabled:opacity-25 cursor-pointer disabled:cursor-not-allowed"
-                aria-label="Move down"
+                aria-label="下移"
               >
                 <ArrowDown />
               </button>

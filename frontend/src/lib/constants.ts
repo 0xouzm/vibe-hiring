@@ -12,25 +12,25 @@ export const DIMENSIONS = [
 export type DimensionKey = (typeof DIMENSIONS)[number];
 
 export const DIMENSION_LABELS: Record<DimensionKey, string> = {
-  pace: "Work Pace",
-  collab: "Collaboration",
-  decision: "Decision Style",
-  expression: "Expression",
-  unc: "Uncertainty Tolerance",
-  growth: "Growth Path",
-  motiv: "Motivation",
-  execution: "Execution Style",
+  pace: "工作节奏",
+  collab: "协作模式",
+  decision: "决策风格",
+  expression: "表达风格",
+  unc: "不确定性容忍",
+  growth: "成长路径",
+  motiv: "驱动力",
+  execution: "执行风格",
 };
 
 export const DIMENSION_SPECTRUM: Record<DimensionKey, [string, string]> = {
-  pace: ["Deep & Thorough", "Fast & Iterative"],
-  collab: ["Independent", "Team-driven"],
-  decision: ["Intuition-led", "Data-driven"],
-  expression: ["Strategic & Subtle", "Direct & Open"],
-  unc: ["Clarity-seeking", "Ambiguity-embracing"],
-  growth: ["Deep Specialist", "Broad Generalist"],
-  motiv: ["Reward-driven", "Mission-driven"],
-  execution: ["Flexible & Adaptive", "Planned & Structured"],
+  pace: ["深度打磨", "快速迭代"],
+  collab: ["独立自主", "团队驱动"],
+  decision: ["直觉主导", "数据驱动"],
+  expression: ["策略含蓄", "直接开放"],
+  unc: ["追求确定", "拥抱模糊"],
+  growth: ["深耕专家", "广博通才"],
+  motiv: ["回报驱动", "使命驱动"],
+  execution: ["灵活应变", "计划有序"],
 };
 
 export const DIMENSION_COLORS: Record<DimensionKey, string> = {

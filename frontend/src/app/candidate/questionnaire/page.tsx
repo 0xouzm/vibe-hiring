@@ -30,7 +30,7 @@ export default function QuestionnairePage() {
         setLoading(false);
       })
       .catch(() => {
-        setError("Failed to load questions. Is the backend running?");
+        setError("加载题目失败，请确认后端服务是否已启动。");
         setLoading(false);
       });
   }, []);
@@ -48,7 +48,7 @@ export default function QuestionnairePage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <p className="text-rose text-sm">{error}</p>
         <Button variant="secondary" onClick={() => window.location.reload()}>
-          Retry
+          重试
         </Button>
       </div>
     );
@@ -57,7 +57,7 @@ export default function QuestionnairePage() {
   if (questions.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-text-dim">No questions available yet.</p>
+        <p className="text-text-dim">暂无可用题目。</p>
       </div>
     );
   }
@@ -129,7 +129,7 @@ function QuestionnaireFlow({
               onClick={q.goPrev}
               disabled={q.isFirst}
             >
-              Previous
+              上一题
             </Button>
 
             {q.isLast ? (
@@ -138,11 +138,11 @@ function QuestionnaireFlow({
                 loading={q.isSubmitting}
                 disabled={!hasAnswer}
               >
-                Submit
+                提交
               </Button>
             ) : (
               <Button onClick={q.goNext} disabled={!hasAnswer}>
-                Next
+                下一题
               </Button>
             )}
           </div>
@@ -195,7 +195,7 @@ function QuestionRenderer({
         />
       );
     default:
-      return <p className="text-text-dim">Unknown question type.</p>;
+      return <p className="text-text-dim">未知题目类型。</p>;
   }
 }
 
@@ -216,19 +216,19 @@ function CompletionView({
         </svg>
       </div>
       <h2 className="text-2xl font-bold font-display text-text mb-2">
-        Career DNA Complete!
+        职业 DNA 测评完成！
       </h2>
       <p className="text-text-dim text-sm mb-2">
-        Your consistency score:{" "}
+        一致性分数：{" "}
         <span className="font-semibold text-indigo">
           {Math.round(result.consistency * 100)}%
         </span>
       </p>
       <p className="text-text-muted text-xs mb-8">
-        Your profile is ready. View your dashboard to see your full DNA breakdown.
+        你的画像已生成，前往仪表盘查看完整的 DNA 分析。
       </p>
       <Button size="lg" onClick={onContinue}>
-        Go to Dashboard
+        前往仪表盘
       </Button>
     </div>
   );

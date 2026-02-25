@@ -27,10 +27,10 @@ function casTierVariant(tier: string): "success" | "warning" | "danger" {
 
 function casTierLabel(tier: string): string {
   const labels: Record<string, string> = {
-    gold: "Gold",
-    silver: "Silver",
-    bronze: "Bronze",
-    none: "N/A",
+    gold: "金牌",
+    silver: "银牌",
+    bronze: "铜牌",
+    none: "暂无",
   };
   return labels[tier] ?? tier;
 }
@@ -61,7 +61,7 @@ export default function CompanyDashboard() {
       .then(([dnaRes, casRes]) => {
         if (!dnaRes) {
           setError(
-            "No Company DNA profile found. Complete the questionnaire first.",
+            "未找到企业 DNA 画像，请先完成问卷测评。",
           );
         }
         setDna(dnaRes);
@@ -81,9 +81,9 @@ export default function CompanyDashboard() {
   if (error || !dna) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <p className="text-text-dim text-sm">{error ?? "No DNA data."}</p>
+        <p className="text-text-dim text-sm">{error ?? "暂无 DNA 数据。"}</p>
         <Button onClick={() => router.push("/company/questionnaire")}>
-          Take Company DNA Assessment
+          开始企业 DNA 测评
         </Button>
       </div>
     );
@@ -95,15 +95,15 @@ export default function CompanyDashboard() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold font-display text-text">
-            Company DNA
+            企业 DNA 画像
           </h1>
           <p className="text-sm text-text-dim mt-1">
-            Aggregated culture profile based on team responses
+            基于团队回答的聚合文化画像
           </p>
         </div>
         {cas && cas.tier !== "none" && (
           <Badge variant={casTierVariant(cas.tier)}>
-            CAS: {casTierLabel(cas.tier)}
+            CAS：{casTierLabel(cas.tier)}
           </Badge>
         )}
       </div>
@@ -114,7 +114,7 @@ export default function CompanyDashboard() {
           <Card>
             <CardHeader>
               <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-                DNA Overview
+                DNA 概览
               </h2>
             </CardHeader>
             <CardContent className="flex items-center justify-center pb-6">
@@ -129,7 +129,7 @@ export default function CompanyDashboard() {
         <Card>
           <CardHeader>
             <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-              Dimension Breakdown
+              维度详情
             </h2>
           </CardHeader>
           <CardContent>
@@ -149,14 +149,14 @@ export default function CompanyDashboard() {
       {/* CTAs */}
       <div className="mt-8 flex items-center justify-center gap-4">
         <Button size="lg" onClick={() => router.push("/company/candidates")}>
-          View Matched Candidates
+          查看匹配候选人
         </Button>
         <Button
           variant="secondary"
           size="lg"
           onClick={() => router.push("/company/invite")}
         >
-          Invite Team Members
+          邀请团队成员
         </Button>
       </div>
     </div>
@@ -172,7 +172,7 @@ function CASCard({ cas }: { cas: CASResponse }) {
     <Card>
       <CardHeader>
         <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-          Culture Authenticity Score
+          文化真实度评分
         </h2>
       </CardHeader>
       <CardContent>
@@ -181,14 +181,14 @@ function CASCard({ cas }: { cas: CASResponse }) {
             {scorePct}
           </div>
           <Badge variant={casTierVariant(cas.tier)}>
-            {casTierLabel(cas.tier)} Tier
+            {casTierLabel(cas.tier)}
           </Badge>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-xs text-text-muted mb-1">
-              Internal Consistency
+              内部一致性
             </p>
             <div className="h-2 w-full rounded-full bg-surface-light overflow-hidden">
               <div
@@ -202,7 +202,7 @@ function CASCard({ cas }: { cas: CASResponse }) {
           </div>
           <div>
             <p className="text-xs text-text-muted mb-1">
-              HR-Employee Alignment
+              HR-员工契合度
             </p>
             <div className="h-2 w-full rounded-full bg-surface-light overflow-hidden">
               <div

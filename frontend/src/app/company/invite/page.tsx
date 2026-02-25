@@ -43,7 +43,7 @@ export default function InvitePage() {
       setName("");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to send invitation.",
+        err instanceof Error ? err.message : "发送邀请失败。",
       );
     } finally {
       setSubmitting(false);
@@ -54,7 +54,7 @@ export default function InvitePage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <p className="text-text-dim text-sm">
-          No company associated with your account.
+          你的账号未关联任何企业。
         </p>
       </div>
     );
@@ -64,11 +64,10 @@ export default function InvitePage() {
     <div className="max-w-xl mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl font-bold font-display text-text">
-          Invite Team Members
+          邀请团队成员
         </h1>
         <p className="text-sm text-text-dim mt-1">
-          Invite team members to complete the Company DNA survey for a more
-          accurate culture profile.
+          邀请团队成员完成企业 DNA 问卷，以获得更准确的文化画像。
         </p>
       </div>
 
@@ -76,7 +75,7 @@ export default function InvitePage() {
       <Card>
         <CardHeader>
           <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-            Send Invitation
+            发送邀请
           </h2>
         </CardHeader>
         <CardContent>
@@ -86,14 +85,14 @@ export default function InvitePage() {
                 htmlFor="invite-name"
                 className="block text-sm font-medium text-text mb-1"
               >
-                Full Name
+                姓名
               </label>
               <input
                 id="invite-name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Jane Smith"
+                placeholder="张三"
                 required
                 className="w-full px-3 py-2 rounded-[var(--radius)] bg-surface-light border border-glass-border text-text text-sm placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-indigo/40"
               />
@@ -104,14 +103,14 @@ export default function InvitePage() {
                 htmlFor="invite-email"
                 className="block text-sm font-medium text-text mb-1"
               >
-                Email Address
+                邮箱
               </label>
               <input
                 id="invite-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="jane@company.com"
+                placeholder="zhangsan@company.com"
                 required
                 className="w-full px-3 py-2 rounded-[var(--radius)] bg-surface-light border border-glass-border text-text text-sm placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-indigo/40"
               />
@@ -120,7 +119,7 @@ export default function InvitePage() {
             {error && <p className="text-rose text-sm">{error}</p>}
 
             <Button type="submit" loading={submitting} disabled={submitting}>
-              Send Invitation
+              发送邀请
             </Button>
           </form>
         </CardContent>
@@ -131,7 +130,7 @@ export default function InvitePage() {
         <Card className="mt-6">
           <CardHeader>
             <h2 className="text-sm font-semibold text-text-dim uppercase tracking-wide">
-              Sent Invitations
+              已发送的邀请
             </h2>
           </CardHeader>
           <CardContent>

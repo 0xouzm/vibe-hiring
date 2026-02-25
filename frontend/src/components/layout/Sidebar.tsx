@@ -13,16 +13,16 @@ interface NavItem {
 }
 
 const candidateNav: NavItem[] = [
-  { label: "Dashboard", href: "/candidate/dashboard", icon: "grid" },
-  { label: "My DNA", href: "/candidate/questionnaire", icon: "dna" },
-  { label: "Weekly Drop", href: "/candidate/drop", icon: "sparkle" },
+  { label: "仪表盘", href: "/candidate/dashboard", icon: "grid" },
+  { label: "我的 DNA", href: "/candidate/questionnaire", icon: "dna" },
+  { label: "每周推荐", href: "/candidate/drop", icon: "sparkle" },
 ];
 
 const hrNav: NavItem[] = [
-  { label: "Dashboard", href: "/company/dashboard", icon: "grid" },
-  { label: "Company DNA", href: "/company/questionnaire", icon: "building" },
-  { label: "Candidates", href: "/company/candidates", icon: "users" },
-  { label: "Invite Team", href: "/company/invite", icon: "mail" },
+  { label: "仪表盘", href: "/company/dashboard", icon: "grid" },
+  { label: "企业 DNA", href: "/company/questionnaire", icon: "building" },
+  { label: "候选人", href: "/company/candidates", icon: "users" },
+  { label: "邀请成员", href: "/company/invite", icon: "mail" },
 ];
 
 /* ── Component ──────────────────────────────────────── */

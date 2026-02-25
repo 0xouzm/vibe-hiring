@@ -32,7 +32,7 @@ export default function CandidatesPage() {
       .get<CompanyMatchResponse[]>(`/companies/${companyId}/matches`)
       .then(setMatches)
       .catch(() =>
-        setError("Failed to load matches. Please try again later."),
+        setError("加载匹配失败，请稍后重试。"),
       )
       .finally(() => setLoading(false));
   }, [companyId]);
@@ -50,7 +50,7 @@ export default function CandidatesPage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <p className="text-rose text-sm">{error}</p>
         <Button variant="secondary" onClick={() => window.location.reload()}>
-          Retry
+          重试
         </Button>
       </div>
     );
@@ -60,11 +60,10 @@ export default function CandidatesPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-bold font-display text-text">
-          Matched Candidates
+          匹配候选人
         </h1>
         <p className="text-sm text-text-dim mt-1">
-          {matches.length} candidate{matches.length !== 1 ? "s" : ""} matched
-          to your company culture
+          共 {matches.length} 位候选人与你的企业文化匹配
         </p>
       </div>
 
@@ -95,11 +94,10 @@ function EmptyState() {
     <Card>
       <CardContent className="py-12 text-center">
         <p className="text-text-dim text-sm mb-2">
-          No matched candidates yet.
+          暂无匹配候选人。
         </p>
         <p className="text-text-muted text-xs">
-          Matches are generated during the weekly drop cycle. Make sure your
-          Company DNA assessment is complete.
+          匹配结果在每周推荐周期中生成，请确保企业 DNA 测评已完成。
         </p>
       </CardContent>
     </Card>
@@ -133,10 +131,10 @@ function CandidateCard({
               </div>
               <div>
                 <h3 className="text-base font-semibold text-text">
-                  Candidate #{index}
+                  候选人 #{index}
                 </h3>
                 <Badge variant={scoreVariant}>
-                  {scorePct}% match
+                  {scorePct}% 匹配
                 </Badge>
               </div>
             </div>
@@ -149,7 +147,7 @@ function CandidateCard({
           <div className="shrink-0 flex flex-col items-end gap-2">
             <StatusBadge status={match.status} />
             <Button variant="secondary" size="sm" onClick={onViewReport}>
-              View Report
+              查看报告
             </Button>
           </div>
         </div>
@@ -167,9 +165,9 @@ function StatusBadge({ status }: { status: string }) {
     passed: "danger",
   };
   const labels: Record<string, string> = {
-    accepted: "Accepted",
-    pending: "Pending",
-    passed: "Passed",
+    accepted: "已接受",
+    pending: "待处理",
+    passed: "已跳过",
   };
 
   return (

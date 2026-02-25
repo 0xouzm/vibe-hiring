@@ -65,7 +65,7 @@ export function Modal({
             <button
               onClick={onClose}
               className="p-1 rounded-[var(--radius-md)] text-text-dim hover:text-text hover:bg-surface-light cursor-pointer"
-              aria-label="Close"
+              aria-label="关闭"
             >
               <CloseIcon />
             </button>

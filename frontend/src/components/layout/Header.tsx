@@ -23,11 +23,11 @@ export function Header() {
             <div className="flex items-center gap-2">
               <span className="text-sm text-text">{user.name}</span>
               <Badge variant={user.role === "hr" ? "warning" : "default"}>
-                {user.role === "hr" ? "HR" : "Candidate"}
+                {user.role === "hr" ? "HR" : "候选人"}
               </Badge>
             </div>
             <Button variant="ghost" size="sm" onClick={logout}>
-              Log out
+              退出
             </Button>
           </div>
         )}
