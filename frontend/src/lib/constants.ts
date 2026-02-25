@@ -43,3 +43,40 @@ export const DIMENSION_COLORS: Record<DimensionKey, string> = {
   motiv: "#06B6D4",
   execution: "#EC4899",
 };
+
+/* ── Match status labels ────────────────────────────── */
+
+export const MATCH_STATUS_LABELS: Record<string, string> = {
+  pending: "等待中",
+  candidate_accepted: "候选人已接受",
+  company_accepted: "企业已接受",
+  mutual: "双向匹配",
+  passed: "已跳过",
+  accepted: "已接受",
+};
+
+export const MATCH_STATUS_COLORS: Record<string, string> = {
+  pending: "text-amber-400",
+  candidate_accepted: "text-blue-400",
+  company_accepted: "text-blue-400",
+  mutual: "text-emerald-400",
+  passed: "text-text-dim",
+  accepted: "text-emerald-400",
+};
+
+/* ── Remote policy labels ───────────────────────────── */
+
+export const REMOTE_POLICY_LABELS: Record<string, string> = {
+  remote: "完全远程",
+  hybrid: "混合办公",
+  onsite: "坐班",
+};
+
+/* ── Level labels ───────────────────────────────────── */
+
+export const LEVEL_LABELS: Record<string, string> = {
+  junior: "初级",
+  mid: "中级",
+  senior: "高级",
+  lead: "负责人",
+};

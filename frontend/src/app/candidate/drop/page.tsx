@@ -95,6 +95,9 @@ function MatchCard({
             <h3 className="text-lg font-semibold font-display text-text">
               {match.company_name}
             </h3>
+            {match.role_title && (
+              <p className="text-sm text-indigo/80 mt-0.5">{match.role_title}</p>
+            )}
 
             {/* Mini dimension bars */}
             <div className="mt-3 grid grid-cols-4 gap-x-4 gap-y-2">

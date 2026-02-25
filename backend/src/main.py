@@ -34,7 +34,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="知遇 API",
     description="AI 驱动的深度人才匹配平台",
-    version="0.1.0",
+    version="0.2.0",
     lifespan=lifespan,
 )
 
@@ -43,10 +43,15 @@ setup_middleware(app)
 # Register routers
 from src.api.auth import router as auth_router
 from src.api.answers import router as answers_router
+from src.api.chat import router as chat_router
 from src.api.company import router as company_router
+from src.api.graph import router as graph_router
 from src.api.drop import router as drop_router
 from src.api.matching import router as matching_router
+from src.api.profile import router as profile_router
 from src.api.questions import router as questions_router
+from src.api.resume import router as resume_router
+from src.api.roles import router as roles_router
 from src.api.scores import router as scores_router
 
 app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
@@ -57,6 +62,11 @@ app.include_router(company_router, prefix="/api/companies", tags=["companies"])
 app.include_router(matching_router, prefix="/api/matching", tags=["matching"])
 app.include_router(matching_router, prefix="/api/matches", tags=["matches"])
 app.include_router(drop_router, prefix="/api", tags=["drops"])
+app.include_router(roles_router, prefix="/api/roles", tags=["roles"])
+app.include_router(profile_router, prefix="/api/profile", tags=["profile"])
+app.include_router(chat_router, prefix="/api/chat", tags=["chat"])
+app.include_router(resume_router, prefix="/api/resume", tags=["resume"])
+app.include_router(graph_router, prefix="/api/graph", tags=["graph"])
 
 
 @app.get("/api/health")

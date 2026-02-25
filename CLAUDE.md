@@ -4,59 +4,116 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-TalentDrop (知遇) is an AI-powered talent matching platform inspired by Date Drop's deep-matching algorithm. Instead of endless job applications, both candidates and companies complete deep questionnaires (Career DNA / Company DNA), and the algorithm "drops" matched opportunities weekly. Currently in the **concept + prototype stage** — product design docs and a static HTML prototype are complete; no application code has been implemented yet.
+TalentDrop (知遇) is an AI-powered talent matching platform inspired by Date Drop's deep-matching algorithm. Instead of endless job applications, both candidates and companies complete deep questionnaires (Career DNA / Company DNA), and the algorithm "drops" matched opportunities weekly. The project has a **working full-stack Demo** with dual-side flows, AI chat, resume parsing, knowledge graph visualization, and an interactive theory presentation page.
 
 ## Repository Structure
 
-- `prototype/` — Static HTML/CSS/JS interactive prototype (single `index.html`, viewable in browser)
-- `discuss/` — Product design, brainstorming, and review documents (Chinese)
-  - `brainstorm.md` — Core product concept: 6 mechanisms, user journeys, business model
-  - `anti-gaming-mechanism.md` — 7-layer anti-cheating design for the questionnaire system
-  - `question-bank-design.md` — Question design methodology (psychometrics + game theory)
-  - `question-bank-full.md` — Complete 30-question standardized behavioral assessment bank
-  - `matching-architecture.md` — 3-layer matching engine architecture (LightRAG + algorithms + evolution)
-  - `matching-algorithm-research.md` — Industry research: Eightfold, Pymetrics, Hinge, OkCupid, CMB, etc.
-  - `pitch-theoretical-foundation.md` — **[Pitch Deck]** Theoretical foundation & academic references for Career DNA
-  - `company-dna-design.md` — Company DNA questionnaire design: aggregation algorithm, Culture Authenticity Score
-  - `company-dna-full.md` — Complete 20-question Company DNA behavioral assessment bank
-  - `demo-phase1-gap-analysis.md` — Demo Phase 1 gap analysis with prioritized execution plan
-  - `demo-dataset.md` — Demo dataset: 3 fictional companies + 6 candidates + match matrix + sample reports
+```
+vibe-hiring/
+├── backend/                    # Python FastAPI backend
+│   └── src/
+│       ├── main.py             # App entry, router registration
+│       ├── seed.py             # Database seed script
+│       ├── api/                # REST routes
+│       │   ├── auth.py         # JWT authentication
+│       │   ├── answers.py      # Questionnaire answer submission
+│       │   ├── questions.py    # Question bank retrieval
+│       │   ├── company.py      # Company endpoints
+│       │   ├── roles.py        # Open position CRUD
+│       │   ├── matching.py     # Run matching + dual-action accept/pass
+│       │   ├── drop.py         # Weekly drop (candidate + company side)
+│       │   ├── scores.py       # DNA score retrieval
+│       │   ├── chat.py         # AI conversational profiling
+│       │   ├── resume.py       # Resume upload + AI parsing
+│       │   ├── profile.py      # User profile CRUD
+│       │   └── graph.py        # Knowledge graph + pipeline visualization data
+│       ├── models/             # Pydantic models
+│       │   ├── database.py     # SQLite schema (all tables)
+│       │   ├── user.py, company.py, questionnaire.py, dna_score.py
+│       │   ├── match.py        # Dual-action match + drop models
+│       │   ├── role.py         # Open position models
+│       │   ├── profile.py      # User profile models
+│       │   └── chat.py         # Chat message models
+│       ├── services/           # Business logic
+│       │   ├── scoring.py      # Career DNA scoring
+│       │   ├── company_scoring.py, aggregation.py, cas.py
+│       │   ├── matching.py     # L1-L2 matching engine (candidate × role)
+│       │   ├── drop.py         # Dual drop generation (candidate + company)
+│       │   ├── report.py       # Template report (Phase 1)
+│       │   ├── llm_report.py   # LLM-powered report (Phase 2)
+│       │   ├── chat_service.py # AI chat + entity extraction
+│       │   ├── resume_service.py # PDF extraction + AI parsing
+│       │   └── graph_service.py  # Knowledge graph data builder
+│       ├── data/               # Question banks + seed data
+│       └── core/               # Config, deps, logging, middleware
+├── frontend/                   # Next.js 16 + React 19 + Tailwind CSS 4
+│   └── src/
+│       ├── app/
+│       │   ├── page.tsx        # Landing / login
+│       │   ├── demo/page.tsx   # Interactive theory presentation
+│       │   ├── candidate/      # Candidate-side pages
+│       │   │   ├── dashboard/, questionnaire/, drop/, chat/, profile/
+│       │   │   └── match/[id]/ # Match report + visualization tabs
+│       │   └── company/        # Company-side pages
+│       │       ├── dashboard/, questionnaire/, candidates/, invite/
+│       │       ├── roles/      # Open position management
+│       │       ├── drop/       # Company weekly drop
+│       │       └── match/[id]/ # Company match detail
+│       ├── components/
+│       │   ├── layout/         # Header, Sidebar, PageContainer
+│       │   ├── ui/             # Button, Card, Input, Modal, Badge, Progress
+│       │   ├── questionnaire/  # ProgressHeader, QuestionCard, RankQuestion, BudgetQuestion
+│       │   ├── charts/         # RadarChart, KnowledgeGraph, MatchFunnel, DimensionCompare
+│       │   └── chat/           # ChatWindow, ChatMessage
+│       ├── hooks/              # useAuth, useQuestionnaire
+│       └── lib/                # api.ts, types.ts, constants.ts
+├── discuss/                    # Product design docs (Chinese)
+├── scripts/                    # Dev/deploy shell scripts
+└── docker-compose.yml
+```
 
 ## Key Product Concepts
 
-- **Career DNA**: 50+ dimension deep profile. 8 core dimensions (Pace, Collab, Decision, Expression, Unc, Growth, Motiv, Execution), all spectrums with no "right answer"
+- **Career DNA**: 8 core dimensions (Pace, Collab, Decision, Expression, Unc, Growth, Motiv, Execution), all spectrums with no "right answer"
 - **Weekly Drop**: Tuesday 9PM curated match reveal with compatibility reports
+- **Dual Discovery**: Candidates receive matched roles; companies receive matched candidates per role. Both sides Accept/Pass → Mutual Match
 - **Three-layer question architecture**: Platform standard (30q, 60%) → Job-type specific (15q, 25%) → Company custom (≤5q, 15%)
-- **Anti-gaming**: Behavioral scenarios, forced rankings, cross-validation across 4-5 questions per dimension, consistency scoring
+- **Matching engine**: L1 hard filter (skills/location) → L2 DNA compatibility (8-dim vector distance × consistency)
+
+## Current Implementation Status
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Career DNA questionnaire | ✅ | 30 questions, 3 question types |
+| Company DNA questionnaire | ✅ | 20 questions, CAS scoring |
+| L1-L2 matching engine | ✅ | Candidate × Role matching |
+| Dual-side Weekly Drop | ✅ | Candidate + Company drops |
+| Mutual Match state machine | ✅ | pending → accepted → mutual / passed |
+| Open position management | ✅ | CRUD for company roles |
+| AI chat profiling | ✅ | OpenAI or mock fallback |
+| Resume upload + parsing | ✅ | PDF extraction + AI parse |
+| LLM match reports | ✅ | OpenAI or template fallback |
+| Knowledge graph visualization | ✅ | Force-directed SVG graph |
+| Match pipeline visualization | ✅ | Funnel + dimension compare |
+| Theory demo page | ✅ | `/demo` — 6 interactive sections |
+| LightRAG integration | ❌ | Dependency installed but not called |
 
 ## Living Documents
 
-The following documents must be maintained in sync with development and product iterations:
+- **`discuss/pitch-theoretical-foundation.md`** — Pitch deck with academic backing
+- **`discuss/matching-architecture.md`** — Core matching engine architecture
 
-- **`discuss/pitch-theoretical-foundation.md`** — Pitch deck material with academic backing for Career DNA dimensions. Update whenever:
-  - A Career DNA dimension is added, removed, or redefined
-  - New academic references are discovered or cited
-  - Validity/reliability data becomes available
-  - Matching algorithm changes affect theoretical framing
-- **`discuss/matching-architecture.md`** — Core matching engine architecture. Update whenever:
-  - Algorithm layers are implemented or modified
-  - Tech stack decisions are finalized
-  - Evolution mechanisms are tuned with real data
-
-## Design System (from prototype)
+## Design System
 
 - **Colors**: Midnight `#070b1a`, Indigo `#6366f1`, Coral `#ff6b4a`, Amber `#f59e0b`, Emerald `#10b981`
 - **Typography**: Syne (display) + DM Sans (body)
 - **Style**: Dark theme, glassmorphism cards, frosted glass overlays
 
-## When Implementation Begins
+## Development Constraints
 
-The global CLAUDE.md mandates these constraints for any code written:
-
-- **Framework**: Next.js v15.3+ with React v19+, Tailwind CSS v4, TypeScript (ESM only, no CommonJS)
+- **Framework**: Next.js 16+ with React 19+, Tailwind CSS v4, TypeScript (ESM only)
 - **File limits**: ≤300 lines per file (JS/TS), ≤8 files per directory level
-- **Strong typing**: All data structures must be typed; no `any` without explicit approval
+- **Strong typing**: All data structures must be typed; no `any` without approval
+- **Python**: Use `uv` exclusively, virtualenv as `.venv`
 - **Docs**: Chinese markdown in `docs/` (formal) and `discuss/` (drafts); all UI text in Chinese
-- **Scripts**: Maintain run/debug shell scripts in `scripts/`
-- **Logging**: Configure file output to `logs/`
-- **Python** (if used for matching algorithm): Use `uv` exclusively, virtualenv as `.venv`
+- **Scripts**: Run/debug scripts in `scripts/`, logs to `logs/`

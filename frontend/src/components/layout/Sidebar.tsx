@@ -14,6 +14,8 @@ interface NavItem {
 
 const candidateNav: NavItem[] = [
   { label: "仪表盘", href: "/candidate/dashboard", icon: "grid" },
+  { label: "AI 对话", href: "/candidate/chat", icon: "chat" },
+  { label: "个人档案", href: "/candidate/profile", icon: "profile" },
   { label: "我的 DNA", href: "/candidate/questionnaire", icon: "dna" },
   { label: "每周推荐", href: "/candidate/drop", icon: "sparkle" },
 ];
@@ -21,6 +23,8 @@ const candidateNav: NavItem[] = [
 const hrNav: NavItem[] = [
   { label: "仪表盘", href: "/company/dashboard", icon: "grid" },
   { label: "企业 DNA", href: "/company/questionnaire", icon: "building" },
+  { label: "岗位管理", href: "/company/roles", icon: "briefcase" },
+  { label: "每周推荐", href: "/company/drop", icon: "sparkle" },
   { label: "候选人", href: "/company/candidates", icon: "users" },
   { label: "邀请成员", href: "/company/invite", icon: "mail" },
 ];
@@ -87,6 +91,19 @@ function NavIcon({ name }: { name: string }) {
           <rect x="14" y="14" width="7" height="7" rx="1" />
         </svg>
       );
+    case "chat":
+      return (
+        <svg {...props}>
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+        </svg>
+      );
+    case "profile":
+      return (
+        <svg {...props}>
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      );
     case "dna":
       return (
         <svg {...props}>
@@ -115,19 +132,20 @@ function NavIcon({ name }: { name: string }) {
           <path d="M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01" />
         </svg>
       );
+    case "briefcase":
+      return (
+        <svg {...props}>
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+          <path d="M12 12h.01" />
+        </svg>
+      );
     case "users":
       return (
         <svg {...props}>
           <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
           <circle cx="9" cy="7" r="4" />
           <path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-        </svg>
-      );
-    case "shield":
-      return (
-        <svg {...props}>
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          <path d="M9 12l2 2 4-4" />
         </svg>
       );
     case "mail":

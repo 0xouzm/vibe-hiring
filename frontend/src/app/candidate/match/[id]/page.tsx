@@ -9,6 +9,7 @@ import { RadarChart } from "@/components/charts/RadarChart";
 import { Card, CardHeader, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { MatchVisualization } from "../_components/MatchVisualization";
 
 /* ── Match Report Detail Page ──────────────────────────────────────── */
 
@@ -69,7 +70,7 @@ export default function MatchReportPage({
 
   const handleAction = async (action: "accept" | "pass") => {
     try {
-      await api.post(`/matching/results/${id}/action`, { action });
+      await api.candidateAction(id, action);
       setActionState(action === "accept" ? "accepted" : "passed");
       if (action === "pass") {
         setTimeout(() => router.push("/candidate/drop"), 1200);
@@ -93,6 +94,9 @@ export default function MatchReportPage({
           <h1 className="text-2xl font-bold font-display text-text">
             {match.company_name}
           </h1>
+          {match.role_title && (
+            <p className="text-sm text-indigo/80 mt-0.5">{match.role_title}</p>
+          )}
         </div>
         <div className="text-center">
           <div className="text-5xl font-bold font-display text-indigo">
@@ -143,6 +147,9 @@ export default function MatchReportPage({
           </CardContent>
         </Card>
       )}
+
+      {/* ── Knowledge graph + pipeline visualization ──── */}
+      <MatchVisualization matchId={id} />
 
       {/* ── Action buttons ─────────────────────────────── */}
       <ActionSection

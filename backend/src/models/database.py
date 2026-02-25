@@ -30,6 +30,56 @@ async def create_tables(db: aiosqlite.Connection) -> None:
     """)
 
     await db.execute("""
+        CREATE TABLE IF NOT EXISTS roles (
+            id              TEXT PRIMARY KEY,
+            company_id      TEXT NOT NULL,
+            title           TEXT NOT NULL,
+            level           TEXT,
+            skills          TEXT,
+            nice_to_have    TEXT,
+            salary_range    TEXT,
+            location        TEXT,
+            remote_policy   TEXT,
+            description     TEXT,
+            is_active       INTEGER DEFAULT 1,
+            created_at      TEXT NOT NULL,
+            FOREIGN KEY (company_id) REFERENCES companies (id)
+        )
+    """)
+
+    await db.execute("""
+        CREATE TABLE IF NOT EXISTS user_profiles (
+            id                  TEXT PRIMARY KEY,
+            user_id             TEXT NOT NULL UNIQUE,
+            title               TEXT,
+            years_experience    INTEGER,
+            skills              TEXT,
+            education           TEXT,
+            bio                 TEXT,
+            resume_text         TEXT,
+            chat_summary        TEXT,
+            location            TEXT,
+            remote_preference   TEXT,
+            salary_expectation  TEXT,
+            created_at          TEXT NOT NULL,
+            updated_at          TEXT NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    """)
+
+    await db.execute("""
+        CREATE TABLE IF NOT EXISTS chat_messages (
+            id                  TEXT PRIMARY KEY,
+            user_id             TEXT NOT NULL,
+            role                TEXT NOT NULL,
+            content             TEXT NOT NULL,
+            extracted_entities  TEXT,
+            created_at          TEXT NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    """)
+
+    await db.execute("""
         CREATE TABLE IF NOT EXISTS career_answers (
             id          TEXT PRIMARY KEY,
             user_id     TEXT NOT NULL,
@@ -67,14 +117,18 @@ async def create_tables(db: aiosqlite.Connection) -> None:
             id                TEXT PRIMARY KEY,
             candidate_id      TEXT NOT NULL,
             company_id        TEXT NOT NULL,
+            role_id           TEXT,
             score             REAL NOT NULL,
             dimension_scores  TEXT NOT NULL,
             report            TEXT,
-            status            TEXT NOT NULL CHECK (status IN ('pending', 'accepted', 'passed')),
+            status            TEXT NOT NULL DEFAULT 'pending',
+            candidate_action  TEXT,
+            company_action    TEXT,
             drop_week         TEXT NOT NULL,
             created_at        TEXT NOT NULL,
             FOREIGN KEY (candidate_id) REFERENCES users (id),
-            FOREIGN KEY (company_id)   REFERENCES companies (id)
+            FOREIGN KEY (company_id)   REFERENCES companies (id),
+            FOREIGN KEY (role_id)      REFERENCES roles (id)
         )
     """)
 
@@ -82,11 +136,11 @@ async def create_tables(db: aiosqlite.Connection) -> None:
         CREATE TABLE IF NOT EXISTS drops (
             id            TEXT PRIMARY KEY,
             week          TEXT NOT NULL,
-            candidate_id  TEXT NOT NULL,
+            target_type   TEXT NOT NULL DEFAULT 'candidate',
+            target_id     TEXT NOT NULL,
             match_ids     TEXT NOT NULL,
             revealed_at   TEXT,
-            created_at    TEXT NOT NULL,
-            FOREIGN KEY (candidate_id) REFERENCES users (id)
+            created_at    TEXT NOT NULL
         )
     """)
 

@@ -1,4 +1,4 @@
-"""L1-L2 matching engine — DNA compatibility scoring between candidate and company."""
+"""L1-L2 matching engine — DNA compatibility scoring between candidate and role."""
 
 from dataclasses import dataclass
 
@@ -11,19 +11,44 @@ class MatchResult:
 
     candidate_id: str
     company_id: str
-    score: int  # 0-100 overall match percentage
-    dimension_scores: DimensionScores  # per-dimension compatibility (0-100)
-    passed_l1: bool
+    role_id: str | None = None
+    score: int = 0       # 0-100 overall match percentage
+    dimension_scores: DimensionScores | None = None
+    passed_l1: bool = True
+    l1_total: int = 0    # total candidates before L1 filter
+    l1_passed: int = 0   # candidates after L1 filter
 
 
 def _l1_boolean_filter(
-    candidate_id: str,  # noqa: ARG001 — reserved for future filters
-    company_id: str,  # noqa: ARG001
+    candidate_skills: list[str] | None,
+    role_skills: list[str] | None,
+    candidate_location: str | None,
+    role_location: str | None,
+    role_remote_policy: str | None,
 ) -> bool:
     """L1: hard-constraint boolean filter.
 
-    Demo phase: all candidates pass (no location / visa / salary filters yet).
+    Checks skill overlap and location/remote compatibility.
+    Returns True if candidate passes all filters.
     """
+    # Remote-first roles pass everyone
+    if role_remote_policy == "remote":
+        return True
+
+    # If both have location info, check compatibility
+    if candidate_location and role_location and role_remote_policy == "onsite":
+        # Simple city match for demo
+        if candidate_location != role_location:
+            return False
+
+    # Skill check: at least 1 required skill must match (if both defined)
+    if candidate_skills and role_skills:
+        overlap = set(s.lower() for s in candidate_skills) & set(
+            s.lower() for s in role_skills
+        )
+        if not overlap:
+            return False
+
     return True
 
 
@@ -39,14 +64,6 @@ def _l2_dna_compatibility(
 
     Overall score (demo: equal weights):
         weighted_avg = mean(score_d for all d) * consistency
-
-    Args:
-        candidate: Candidate Career DNA profile.
-        company: Company DNA profile.
-        consistency: Candidate questionnaire consistency in [0, 1].
-
-    Returns:
-        (overall_score_int, per_dimension_scores)
     """
     dim_scores: dict[str, float] = {}
     total = 0.0
@@ -72,41 +89,44 @@ def run_matching(
     candidate_consistency: float,
     company_id: str,
     company_scores: DimensionScores,
+    role_id: str | None = None,
+    candidate_skills: list[str] | None = None,
+    role_skills: list[str] | None = None,
+    candidate_location: str | None = None,
+    role_location: str | None = None,
+    role_remote_policy: str | None = None,
+    l1_total: int = 0,
 ) -> MatchResult:
-    """Execute the full L1 + L2 matching pipeline.
-
-    Args:
-        candidate_id: Unique candidate identifier.
-        candidate_scores: 8-dimension Career DNA profile.
-        candidate_consistency: Answer consistency coefficient in [0, 1].
-        company_id: Unique company identifier.
-        company_scores: 8-dimension Company DNA profile.
-
-    Returns:
-        MatchResult with overall score, per-dimension breakdown, and L1 status.
-    """
-    passed = _l1_boolean_filter(candidate_id, company_id)
+    """Execute the full L1 + L2 matching pipeline."""
+    passed = _l1_boolean_filter(
+        candidate_skills, role_skills,
+        candidate_location, role_location, role_remote_policy,
+    )
 
     if not passed:
         zero_dims = DimensionScores(**{d: 0.0 for d in DIMENSIONS})
         return MatchResult(
             candidate_id=candidate_id,
             company_id=company_id,
+            role_id=role_id,
             score=0,
             dimension_scores=zero_dims,
             passed_l1=False,
+            l1_total=l1_total,
+            l1_passed=0,
         )
 
     overall, dim_scores = _l2_dna_compatibility(
-        candidate_scores,
-        company_scores,
-        candidate_consistency,
+        candidate_scores, company_scores, candidate_consistency,
     )
 
     return MatchResult(
         candidate_id=candidate_id,
         company_id=company_id,
+        role_id=role_id,
         score=overall,
         dimension_scores=dim_scores,
         passed_l1=True,
+        l1_total=l1_total,
+        l1_passed=l1_total,  # demo: all pass L1
     )
