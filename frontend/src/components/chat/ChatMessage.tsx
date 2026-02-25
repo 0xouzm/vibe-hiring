@@ -27,7 +27,7 @@ export function ChatMessage({ message, isUser }: ChatMessageProps) {
   const entities: Record<string, unknown> | null =
     raw && typeof raw === "object" && "entities" in raw && typeof raw.entities === "object"
       ? (raw.entities as Record<string, unknown>)
-      : raw;
+      : raw ?? null;
   // Filter out empty arrays to only show meaningful entities
   const visibleEntries = entities
     ? Object.entries(entities).filter(

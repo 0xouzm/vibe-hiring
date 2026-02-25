@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="知遇 API",
+    title="职遇 API",
     description="AI 驱动的深度人才匹配平台",
     version="0.2.0",
     lifespan=lifespan,

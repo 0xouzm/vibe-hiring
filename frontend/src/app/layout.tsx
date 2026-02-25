@@ -15,7 +15,7 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "知遇",
+  title: "职遇",
   description: "AI 驱动的深度人才匹配平台",
 };
 

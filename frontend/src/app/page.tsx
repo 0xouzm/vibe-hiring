@@ -63,7 +63,7 @@ export default function LandingPage() {
       {/* ── Hero ────────────────────────────────────────── */}
       <div className="text-center max-w-2xl mb-16">
         <h1 className="text-6xl font-bold font-display text-indigo mb-4">
-          知遇
+          职遇
         </h1>
         <p className="text-xl text-text-dim leading-relaxed mb-8">
           找到你真正属于的地方

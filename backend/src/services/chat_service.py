@@ -6,7 +6,7 @@ from openai import AsyncOpenAI
 
 from src.core.config import settings
 
-SYSTEM_PROMPT = """你是知遇（TalentDrop）的 AI 职业顾问。你的目标是通过自然对话了解候选人的背景信息。
+SYSTEM_PROMPT = """你是职遇（TalentDrop）的 AI 职业顾问。你的目标是通过自然对话了解候选人的背景信息。
 
 对话策略：
 1. 先了解当前职位和工作经历
@@ -103,7 +103,7 @@ def _mock_response(
 
     mock_responses = [
         (
-            "你好！欢迎来到知遇 🎯 我是你的 AI 职业顾问。\n\n"
+            "你好！欢迎来到职遇 🎯 我是你的 AI 职业顾问。\n\n"
             "在开始之前，能简单介绍一下你目前的工作情况吗？"
             "比如你现在的职位、所在行业、工作了多长时间？",
             None,

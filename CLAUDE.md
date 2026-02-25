@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-TalentDrop (知遇) is an AI-powered talent matching platform inspired by Date Drop's deep-matching algorithm. Instead of endless job applications, both candidates and companies complete deep questionnaires (Career DNA / Company DNA), and the algorithm "drops" matched opportunities weekly. The project has a **working full-stack Demo** with dual-side flows, AI chat, resume parsing, knowledge graph visualization, and an interactive theory presentation page.
+TalentDrop (职遇) is an AI-powered talent matching platform inspired by Date Drop's deep-matching algorithm. Instead of endless job applications, both candidates and companies complete deep questionnaires (Career DNA / Company DNA), and the algorithm "drops" matched opportunities weekly. The project has a **working full-stack Demo** with dual-side flows, AI chat, resume parsing, knowledge graph visualization, and an interactive theory presentation page.
 
 ## Repository Structure
 
@@ -97,6 +97,61 @@ vibe-hiring/
 | Match pipeline visualization | ✅ | Funnel + dimension compare |
 | Theory demo page | ✅ | `/demo` — 6 interactive sections |
 | LightRAG integration | ❌ | Dependency installed but not called |
+
+## 本地运行
+
+### 前置依赖
+
+- Python ≥ 3.11 + [uv](https://docs.astral.sh/uv/)
+- Node.js ≥ 18 + npm
+- （可选）`OPENAI_API_KEY` 写入 `backend/.env`，不配置则 AI 功能自动降级为 mock
+
+### 启动步骤
+
+```bash
+# 1. 启动后端（自动创建 .venv 并安装依赖）
+bash scripts/dev-backend.sh        # → http://localhost:8000
+
+# 2. 初始化种子数据（另开终端，后端启动后执行一次即可）
+bash scripts/seed-db.sh
+
+# 3. 启动前端（另开终端）
+bash scripts/dev-frontend.sh       # → http://localhost:3000
+```
+
+### 演示账号
+
+统一密码：`demo123`
+
+**候选人**
+
+| 姓名 | 邮箱 | 简介 |
+|------|------|------|
+| Alex Chen | `alex@example.com` | 高级前端，6年，杭州，快节奏/独立型 |
+| Maria Santos | `maria@example.com` | 全栈，4年，北京，协作/使命驱动 |
+| James Wright | `james@example.com` | 后端，8年，上海，数据驱动/计划有序 |
+| Priya Sharma | `priya@example.com` | 产品工程师，3年，北京，使命驱动/团队 |
+| David Kim | `david@example.com` | DevOps，5年，上海，数据驱动 |
+| Sophie Zhang | `sophie@example.com` | 初级，1年，南京，广博通才 |
+
+**企业 HR**
+
+| 公司 | 邮箱 |
+|------|------|
+| Velocity Labs | `hr@velocity-labs.example.com` |
+| Meridian Financial | `hr@meridian-financial.example.com` |
+| Bloom Education | `hr@bloom-education.example.com` |
+
+> 首页（`http://localhost:3000`）内置了快速登录按钮，点击姓名即可一键登录，无需手动输入。
+
+### 高匹配验证对照
+
+| 候选人 | 公司 | 预期匹配度 |
+|--------|------|-----------|
+| Alex Chen | Velocity Labs | ~91% |
+| James Wright | Meridian Financial | ~92% |
+| Priya Sharma | Bloom Education | ~93% |
+| Maria Santos | Bloom Education | ~89% |
 
 ## Living Documents
 

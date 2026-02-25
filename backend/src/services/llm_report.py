@@ -8,7 +8,7 @@ from src.core.config import settings
 from src.models.dna_score import DIMENSIONS, DimensionScores
 from src.services.report import generate_simple_report
 
-REPORT_PROMPT = """你是知遇（TalentDrop）的匹配分析师。请根据以下数据生成一份深度匹配报告。
+REPORT_PROMPT = """你是职遇（TalentDrop）的匹配分析师。请根据以下数据生成一份深度匹配报告。
 
 ## 候选人信息
 - 姓名：{candidate_name}
