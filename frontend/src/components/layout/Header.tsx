@@ -13,7 +13,7 @@ export function Header() {
         {/* Logo */}
         <div className="flex items-center gap-3">
           <span className="text-xl font-bold font-display text-indigo">
-            TalentDrop
+            知遇
           </span>
         </div>
 

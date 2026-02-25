@@ -15,8 +15,8 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "TalentDrop",
-  description: "AI-powered talent matching",
+  title: "知遇",
+  description: "AI 驱动的深度人才匹配平台",
 };
 
 export default function RootLayout({

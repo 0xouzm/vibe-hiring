@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-TalentDrop is an AI-powered talent matching platform inspired by Date Drop's deep-matching algorithm. Instead of endless job applications, both candidates and companies complete deep questionnaires (Career DNA / Company DNA), and the algorithm "drops" matched opportunities weekly. Currently in the **concept + prototype stage** — product design docs and a static HTML prototype are complete; no application code has been implemented yet.
+TalentDrop (知遇) is an AI-powered talent matching platform inspired by Date Drop's deep-matching algorithm. Instead of endless job applications, both candidates and companies complete deep questionnaires (Career DNA / Company DNA), and the algorithm "drops" matched opportunities weekly. Currently in the **concept + prototype stage** — product design docs and a static HTML prototype are complete; no application code has been implemented yet.
 
 ## Repository Structure
 
