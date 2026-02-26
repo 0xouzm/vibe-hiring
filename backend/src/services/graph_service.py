@@ -95,7 +95,9 @@ async def build_match_graph(
     )
 
     # Build match connections (dimension compatibility edges)
-    match_edges = _build_match_edges(match["dimension_scores"])
+    match_edges = _build_match_edges(
+        match["dimension_scores"], candidate_id, company_id,
+    )
 
     all_nodes = candidate_graph["nodes"] + company_nodes
     all_edges = candidate_graph["edges"] + company_edges + match_edges
@@ -153,21 +155,36 @@ async def _build_company_nodes(
     return nodes, edges
 
 
-def _build_match_edges(dimension_scores_json: str) -> list[dict]:
-    """Create edges representing dimension compatibility."""
+def _build_match_edges(
+    dimension_scores_json: str,
+    candidate_id: str,
+    company_id: str,
+) -> list[dict]:
+    """Create edges connecting candidate and company clusters."""
+    edges: list[dict] = []
+
+    # Direct link between candidate and company
+    edges.append({
+        "source": candidate_id,
+        "target": company_id,
+        "weight": 0.5,
+        "type": "match",
+    })
+
     try:
         scores = json.loads(dimension_scores_json) if dimension_scores_json else {}
     except (json.JSONDecodeError, TypeError):
-        return []
+        return edges
 
-    edges: list[dict] = []
+    # High-compatibility dimensions link to company
     for dim, val in scores.items():
         compat = float(val) / 100.0
-        if compat > 0.7:  # Only show strong connections
+        if compat > 0.6:
             edges.append({
                 "source": f"dim-{dim}",
-                "target": f"dim-{dim}",
-                "weight": compat,
+                "target": company_id,
+                "weight": compat * 0.4,
                 "type": "match",
             })
+
     return edges

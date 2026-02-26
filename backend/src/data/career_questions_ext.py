@@ -11,14 +11,14 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         title="协作模式（交叉验证）",
         scenario=(
             "你的团队刚启动一个高优先级项目，截止日期只有两周。"
-            "三个独立模块可以并行开发。你负责其中一个，但整体架构还没定义清楚。你会："
+            "三个子任务可以并行推进。你负责其中一个，但整体方案还没对齐清楚。你会："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="基于自己的最佳接口假设先开始做，等有具体产出后再和其他人对齐"),
-            QuestionOption(key="B", text="提议花半天让三个模块负责人一起画接口，然后再各自编码"),
-            QuestionOption(key="C", text="自己先拟一份接口契约，发出去征求异步反馈——如果几小时内没有异议就开工"),
-            QuestionOption(key="D", text="和耦合度最高的那个模块的开发者先结对设计，然后再拉第三个人"),
+            QuestionOption(key="A", text="基于自己的最佳假设先开始做，等有具体产出后再和其他人对齐"),
+            QuestionOption(key="B", text="提议花半天让三个子任务负责人一起明确分工和衔接，然后再各自推进"),
+            QuestionOption(key="C", text="自己先拟一份分工方案，发出去征求异步反馈——如果几小时内没有异议就开工"),
+            QuestionOption(key="D", text="和关联度最高的那个子任务的负责人先结对梳理，然后再拉第三个人"),
         ],
         dimensions=["collab"],
     ),
@@ -26,14 +26,14 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         id="Q17",
         title="表达风格（交叉验证）+ 决策风格",
         scenario=(
-            "你做一个功能已经两周了，刚意识到可能会比截止日期晚 3-4 天——"
-            "原因是技术复杂度超出预期，不是规划失误。距离截止日期还有一周。你会："
+            "你做一个交付物已经两周了，刚意识到可能会比截止日期晚 3-4 天——"
+            "原因是复杂度超出预期，不是规划失误。距离截止日期还有一周。你会："
         ),
         type=QuestionType.choice,
         options=[
             QuestionOption(key="A", text="立刻发消息给经理：『提个醒——X 遇到复杂度问题，可能晚 3-4 天。原因和调整后的计划如下。』"),
             QuestionOption(key="B", text="先把复杂度攻克了，这样汇报时能同时呈现问题和解决方案"),
-            QuestionOption(key="C", text="在下一次 1:1 或站会上随口提一下——还有时间，不值得专门通知"),
+            QuestionOption(key="C", text="在下一次 1:1 或早会上随口提一下——还有时间，不值得专门通知"),
             QuestionOption(key="D", text="给经理和更广泛的团队发一份详细的书面更新，记录挑战、已尝试的方案和修正后的时间线"),
         ],
         dimensions=["expression", "decision"],
@@ -42,7 +42,7 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         id="Q18",
         title="表达风格（关键交叉验证）",
         scenario=(
-            "你的团队围绕系统重构的两个方案争论了一周，5:5 对半分，"
+            "你的团队围绕一个重要议题的两个方案争论了一周，5:5 对半分，"
             "讨论在绕圈子。你有很强的倾向。没有指定的决策者。你会："
         ),
         type=QuestionType.choice,
@@ -50,7 +50,7 @@ CAREER_QUESTIONS_EXT: list[Question] = [
             QuestionOption(key="A", text="写一份结构化对比文档，列出利弊和数据，分享后明确要求本周内做出最终决定"),
             QuestionOption(key="B", text="建议团队直接选一个然后全力投入——犹豫不决的代价比选『稍微不对』的方案更大"),
             QuestionOption(key="C", text="私下和对方阵营的关键人物聊，了解他们的顾虑，然后提出一个吸收了他们关切的修改版方案"),
-            QuestionOption(key="D", text="提议一个限时 spike：双方各用两天做一个小 POC，然后基于实际结果决定"),
+            QuestionOption(key="D", text="提议一个限时试验：双方各用两天做一个小型验证，然后基于实际结果决定"),
         ],
         dimensions=["expression"],
     ),
@@ -58,14 +58,14 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         id="Q19",
         title="执行风格（主测）",
         scenario=(
-            "你负责一个需要跨三个服务协调的功能，估计需要六周。"
+            "你负责一个需要跨多个部门协调的项目，估计需要六周。"
             "经理问：『你打算怎么跟踪进度？』"
         ),
         type=QuestionType.choice,
         options=[
             QuestionOption(key="A", text="搭建详细的项目跟踪器，包含周里程碑、依赖关系图和风险登记表。前两周安排每日简短同步会"),
             QuestionOption(key="B", text="创建一个轻量级共享文档，列出三个关键里程碑和目标日期。每个里程碑临近时和相关人核对"),
-            QuestionOption(key="C", text="保持非正式——你了解相关的人。需要更新时在 Slack 上 ping 他们，风险在每周 1:1 中标记"),
+            QuestionOption(key="C", text="保持非正式——你了解相关的人。需要更新时直接联系他们，风险在每周 1:1 中标记"),
             QuestionOption(key="D", text="明确定义终态和第一个里程碑。第一个里程碑完成后再规划后续——届时你对实际复杂度更有数"),
         ],
         dimensions=["execution"],
@@ -74,15 +74,15 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         id="Q20",
         title="执行风格（交叉验证）",
         scenario=(
-            "你向 team lead 承诺了周四交付一个组件。周二晚上你发现低估了工作量——"
-            "要在周四交付就必须牺牲测试覆盖和错误处理的质量。"
+            "你向负责人承诺了周四交付一项工作。周二晚上你发现低估了工作量——"
+            "要在周四交付就必须牺牲质量。"
             "如果做到位，周一才能交付。你会："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="立刻发消息给 lead：『修正估期为周一。以下是我低估的部分和调整后的计划。』周一交付高质量版本"),
+            QuestionOption(key="A", text="立刻发消息给负责人：『修正估期为周一。以下是我低估的部分和调整后的计划。』周一交付高质量版本"),
             QuestionOption(key="B", text="全力冲刺周四——加班也行。承诺就是承诺，可靠性意味着说到做到"),
-            QuestionOption(key="C", text="周四先交付已完成的部分，附上一份清晰的『已知缺口』清单，然后周一补齐剩余质量工作"),
+            QuestionOption(key="C", text="周四先交付已完成的部分，附上一份清晰的『已知缺口』清单，然后周一补齐剩余工作"),
             QuestionOption(key="D", text="先确认是否真的有人需要周四拿到，还是这个 deadline 本来就是软性的。如果有弹性，悄悄改到周一"),
         ],
         dimensions=["execution"],
@@ -113,7 +113,7 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         type=QuestionType.choice,
         options=[
             QuestionOption(key="A", text="参加核心技能领域的高级进阶研讨——从『不错』变成『卓越』"),
-            QuestionOption(key="B", text="有意跨出自己的领域——开发者去做 UX 冲刺，市场人去上数据科学训练营"),
+            QuestionOption(key="B", text="有意跨出自己的领域——去学一个完全不同的专业方向，体验从零开始的视角"),
             QuestionOption(key="C", text="跟三位不同的高管各待一天——旁听他们的会议，理解决策方式，看到组织全局"),
             QuestionOption(key="D", text="跳过课程。找一个公司里真正没解决的问题，花一周做出一个可用原型"),
         ],
@@ -155,7 +155,7 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         scenario=(
             "你已经干了五年，在主要技能上有很强的声誉。一次重组产生了两个新岗位，"
             "你是两个的首选候选人：\n\n"
-            "角色 X：成为全公司你所在学科的权威。制定标准、审核关键工作、指导专家。"
+            "角色 X：成为全公司你所在专业领域的权威。制定标准、审核关键工作、指导专家。"
             "深度继续加深，范围留在你的领域内。三年后：行业级专家。\n\n"
             "角色 Y：混合角色，将你的技能与两个你从未正式涉足的相邻领域结合。"
             "第一年你经常是房间里经验最少的人。三年后：少有人具备的独特跨职能视角。"
@@ -180,7 +180,7 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         type=QuestionType.choice,
         options=[
             QuestionOption(key="A", text="按自己的最佳理解开始做，从实际结果中学习并修正方向"),
-            QuestionOption(key="B", text="花两周访谈双方利益相关者，在编码之前整合出一份统一的方向文档"),
+            QuestionOption(key="B", text="花两周访谈双方利益相关者，在动手之前整合出一份统一的方向文档"),
             QuestionOption(key="C", text="提议一个小型可逆的试点整合来验证假设，用结果去争取更明确的授权"),
             QuestionOption(key="D", text="向上反馈：项目需要先明确范围和成功标准，才能开展有意义的工作"),
         ],
@@ -207,8 +207,8 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         title="成长路径（交叉验证）",
         scenario=(
             "你同一天收到两个内部转岗 offer，薪酬、职级、团队质量完全相同。\n\n"
-            "Offer X：在你已经精通 4 年的技术栈上做高级角色。你将成为"
-            "无可争议的领域专家，指导新人，掌控技术路线图。\n\n"
+            "Offer X：在你已经精通 4 年的专业领域做高级角色。你将成为"
+            "无可争议的领域专家，指导新人，掌控发展路线图。\n\n"
             "Offer Y：在一个全新组建的团队做高级角色，探索你从未接触的领域。"
             "你将是经验最少的人，需要 6 个月以上的学习曲线，但会获得完全不同的视野。"
         ),
@@ -225,7 +225,7 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         id="Q29",
         title="驱动力来源（交叉验证）",
         scenario=(
-            "团队刚经历了三个月的艰苦冲刺，发布了一个重大功能。"
+            "团队刚经历了三个月的艰苦冲刺，发布了一个重大成果。"
             "经理让每人选一个奖励，全部真诚提供，不带评判："
         ),
         type=QuestionType.choice,
@@ -241,16 +241,16 @@ CAREER_QUESTIONS_EXT: list[Question] = [
         id="Q30",
         title="表达风格，跨职能（交叉验证）",
         scenario=(
-            "市场部已经向大客户承诺一个功能 6 周内上线。你是工程负责人，"
-            "诚实估计需要 10-12 周。新闻稿已经发了，销售 VP 对延期的想法很愤怒。"
+            "对外已经向大客户承诺一个项目 6 周内交付。你是项目负责人，"
+            "诚实估计需要 10-12 周。公告已经发了，销售负责人对延期的想法很愤怒。"
             "该客户是前三大营收客户。你会："
         ),
         type=QuestionType.choice,
         options=[
-            QuestionOption(key="A", text="和市场负责人、销售 VP 开私下会议，摆出技术现实，在跟客户沟通之前先内部协商出新时间线"),
+            QuestionOption(key="A", text="和市场负责人、销售负责人开私下会议，摆出现实情况，在跟客户沟通之前先内部协商出新时间线"),
             QuestionOption(key="B", text="承诺 6 周期限但立即砍范围——按时交付一个最小版本，定义为『第一期』"),
-            QuestionOption(key="C", text="上报给你们共同的高管（CTO/CEO），透明呈现取舍，让领导层决定如何处理对外承诺"),
-            QuestionOption(key="D", text="和销售 VP 一起直接去找客户，坦诚说明修正后的时间线，并提供一个具体的过渡方案以维护信任"),
+            QuestionOption(key="C", text="上报给你们共同的上级，透明呈现取舍，让领导层决定如何处理对外承诺"),
+            QuestionOption(key="D", text="和销售负责人一起直接去找客户，坦诚说明修正后的时间线，并提供一个具体的过渡方案以维护信任"),
         ],
         dimensions=["expression"],
     ),

@@ -54,11 +54,23 @@ function initPositions(nodes: GraphNode[], w: number, h: number): GraphNode[] {
   }));
 }
 
-function simulate(nodes: GraphNode[], edges: GraphEdge[], steps: number = 80) {
+function simulate(
+  nodes: GraphNode[], edges: GraphEdge[],
+  w: number, h: number, steps: number = 100,
+) {
   const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+  const cx = w / 2;
+  const cy = h / 2;
+  const pad = 40;
 
   for (let step = 0; step < steps; step++) {
     const alpha = 1 - step / steps;
+
+    // Center gravity — pull all nodes toward center
+    for (const node of nodes) {
+      node.vx = (node.vx ?? 0) + (cx - (node.x ?? 0)) * 0.005 * alpha;
+      node.vy = (node.vy ?? 0) + (cy - (node.y ?? 0)) * 0.005 * alpha;
+    }
 
     // Repulsion between all nodes
     for (let i = 0; i < nodes.length; i++) {
@@ -68,7 +80,7 @@ function simulate(nodes: GraphNode[], edges: GraphEdge[], steps: number = 80) {
         const dx = (b.x ?? 0) - (a.x ?? 0);
         const dy = (b.y ?? 0) - (a.y ?? 0);
         const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
-        const force = (200 * alpha) / dist;
+        const force = (150 * alpha) / dist;
         const fx = (dx / dist) * force;
         const fy = (dy / dist) * force;
         a.vx = (a.vx ?? 0) - fx;
@@ -86,7 +98,7 @@ function simulate(nodes: GraphNode[], edges: GraphEdge[], steps: number = 80) {
       const dx = (b.x ?? 0) - (a.x ?? 0);
       const dy = (b.y ?? 0) - (a.y ?? 0);
       const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
-      const force = (dist - 100) * 0.02 * alpha * edge.weight;
+      const force = (dist - 80) * 0.03 * alpha * edge.weight;
       const fx = (dx / dist) * force;
       const fy = (dy / dist) * force;
       a.vx = (a.vx ?? 0) + fx;
@@ -95,12 +107,14 @@ function simulate(nodes: GraphNode[], edges: GraphEdge[], steps: number = 80) {
       b.vy = (b.vy ?? 0) - fy;
     }
 
-    // Apply velocities
+    // Apply velocities + clamp to viewport
     for (const node of nodes) {
       node.x = (node.x ?? 0) + (node.vx ?? 0) * 0.3;
       node.y = (node.y ?? 0) + (node.vy ?? 0) * 0.3;
-      node.vx = (node.vx ?? 0) * 0.8;
-      node.vy = (node.vy ?? 0) * 0.8;
+      node.x = Math.max(pad, Math.min(w - pad, node.x));
+      node.y = Math.max(pad, Math.min(h - pad, node.y));
+      node.vx = (node.vx ?? 0) * 0.75;
+      node.vy = (node.vy ?? 0) * 0.75;
     }
   }
 
@@ -121,7 +135,7 @@ export function KnowledgeGraph({
   useEffect(() => {
     if (rawNodes.length === 0) return;
     const init = initPositions([...rawNodes], width, height);
-    const result = simulate(init, edges);
+    const result = simulate(init, edges, width, height);
     setPositioned(result);
   }, [rawNodes, edges, width, height]);
 
